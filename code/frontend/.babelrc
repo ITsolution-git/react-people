@@ -1,12 +1,8 @@
+/**
+ * WARNING: This file is just to prevent from global .babelrc files!
+ * This babel funcitonality is actually controlled within config/index.js
+ **/
 {
-  "plugins": [
-    "transform-runtime",
-    "react-html-attrs",
-    "react-hot-loader/babel"
-  ],
-  "presets": [
-    ["es2015", { "modules": false }],
-    "react",
-    "stage-0"
-  ]
+  "plugins": ["transform-runtime", "lodash", "transform-decorators-legacy"],
+  "presets": ["es2015", "react", "stage-0"]
 }

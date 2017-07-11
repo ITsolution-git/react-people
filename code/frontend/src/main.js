@@ -1,49 +1,75 @@
-import 'styles/app.scss';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import AppContainer from './containers/App/App'
+import createStore from './store/createStore'
 
-import React from 'react';
-import { AppContainer } from 'react-hot-loader';
-import ReactDOM from 'react-dom';
-import {
-  BrowserRouter as Router,
-  Route
-} from 'react-router-dom';
+// ========================================================
+// Store and History Instantiation
+// ========================================================
+// Create redux store and sync with react-router-redux. We have installed the
+// react-router-redux reducer under the routerKey "router" in src/routes/index.js,
+// so we need to provide a custom `selectLocationState` to inform
+// react-router-redux of its location.
+const initialState = window.___INITIAL_STATE__
+const store = createStore(initialState)
 
-import { App } from 'components';
-import LoginForm  from './components/pages/LoginForm';
-import SignUpForm  from './components/pages/SignUpForm';
-import Logout  from './components/pages/logout';
-import Dashboard  from './components/pages/dashboard';
-import Job  from './components/pages/job';
-import Jobs  from './components/pages/jobs';
+// ========================================================
+// Render Setup
+// ========================================================
+const MOUNT_NODE = document.getElementById('root')
 
-const routes = (
-  <Router>
-      <div>
-          <Route exact path="/" component={App} />
-          <Route exact path="/login" component={LoginForm} />
-          <Route exact path="/signup" component={SignUpForm} />
-          <Route exact path="/logout" component={Logout} />
-          <Route exact path="/home" component={Dashboard} />
-          <Route exact path="/job/:id" component={Job} />
-          <Route exact path="/jobs" component={Jobs} />
-      </div>
-  </Router>
-);
+let render = () => {
+  const routes = require('./routes/index').default(store)
 
-const outlet = document.getElementById('app')
-
-const render = () => {
   ReactDOM.render(
-    <AppContainer>
-      {routes}
-    </AppContainer>,
-    outlet
-  );
-};
-
-render();
-
-// Hot Module Replacement API
-if (module.hot) {
-  module.hot.accept(render);
+    <AppContainer
+      store={store}
+      routes={routes}
+    />,
+    MOUNT_NODE
+  )
 }
+
+// ========================================================
+// Developer Tools Setup
+// ========================================================
+if (__DEV__) {
+  if (window.devToolsExtension) {
+    // window.devToolsExtension.open()
+  }
+}
+
+// This code is excluded from production bundle
+if (__DEV__) {
+  if (module.hot) {
+    // Development render functions
+    const renderApp = render
+    const renderError = (error) => {
+      const RedBox = require('redbox-react').default
+
+      ReactDOM.render(<RedBox error={error} />, MOUNT_NODE)
+    }
+
+    // Wrap render in try/catch
+    render = () => {
+      try {
+        renderApp()
+      } catch (error) {
+        renderError(error)
+      }
+    }
+
+    // Setup hot module replacement
+    module.hot.accept('./routes/index', () => {
+      setTimeout(() => {
+        ReactDOM.unmountComponentAtNode(MOUNT_NODE)
+        render()
+      })
+    })
+  }
+}
+
+// ========================================================
+// Go!
+// ========================================================
+render()
