@@ -34,10 +34,11 @@ export default class Signup extends Component {
 
   handleSignup = (creds) => {
     const { createUser, login } = this.props.firebase
-    const { email, username } = creds
+    var { email, password, name, surname, cellphone } = creds
+    cellphone = cellphone === undefined ? '' : cellphone
     this.setState({ snackCanOpen: true })
     // create new user then login (redirect handled by decorator)
-    return createUser(creds, { email, username })
+    return createUser({email,password}, { email, name, surname, cellphone })
       .then(() => login(creds))
   }
 

@@ -2,10 +2,12 @@
 // .gitignore skips this at the project level, but it is added for example here
 
 export const firebase = {
-  apiKey: 'AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots',
-  authDomain: 'redux-firebasev3.firebaseapp.com',
-  databaseURL: 'https://redux-firebasev3.firebaseio.com',
-  storageBucket: 'redux-firebasev3.appspot.com'
+  apiKey: 'AIzaSyCuJ6Q4R_gki046rem94y8Mb4T_jO4ZlX4',
+  authDomain: 'gleaming-idiom-167311.firebaseapp.com',
+  databaseURL: 'https://gleaming-idiom-167311.firebaseio.com',
+  storageBucket: 'gleaming-idiom-167311.appspot.com',
+  projectId: "gleaming-idiom-167311",
+  messagingSenderId: "138059995471"
 }
 
 // Config for react-redux-firebase

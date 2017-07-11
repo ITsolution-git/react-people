@@ -11,9 +11,15 @@ const SignupForm = ({ handleSubmit, submitting }) => {
   return (
     <form className={classes.container} onSubmit={handleSubmit}>
       <Field
-        name='username'
+        name='name'
         component={TextField}
-        label='Username'
+        label='Name'
+        validate={[required]}
+      />
+      <Field
+        name='surname'
+        component={TextField}
+        label='Surname'
         validate={[required]}
       />
       <Field
@@ -28,6 +34,11 @@ const SignupForm = ({ handleSubmit, submitting }) => {
         label='Password'
         type='password'
         validate={[required]}
+      />
+      <Field
+        name='cellphone'
+        component={TextField}
+        label='Mobile Phone'
       />
       <div className={classes.submit}>
         <RaisedButton

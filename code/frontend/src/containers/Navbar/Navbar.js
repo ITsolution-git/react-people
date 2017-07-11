@@ -63,7 +63,8 @@ export default class Navbar extends Component {
   render () {
     const { account } = this.props
     const accountExists = isLoaded(account) && !isEmpty(account)
-
+    console.log('account', account)
+    console.log("accountExists", accountExists)
     const iconButton = (
       <IconButton style={avatarStyles.button} disableTouchRipple>
         <div className={classes.avatar}>
