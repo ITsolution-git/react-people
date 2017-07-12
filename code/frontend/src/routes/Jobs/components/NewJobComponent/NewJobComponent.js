@@ -161,6 +161,7 @@ export default class NewJobComponent extends Component {
                     floatingLabelText="Language"
                     value={this.state.language}
                     onChange={this.handleLanguageChange}
+                    fullWidth={true}
                   >
                     <MenuItem value={null} primaryText="" />
                     <MenuItem value={'english'} primaryText="English" />
@@ -233,6 +234,7 @@ export default class NewJobComponent extends Component {
                       name="profile_language_proficiency"
                       validators={['required']}
                       errorMessages={['this field is required']}
+                      fullWidth={true}
                   />
                 </div>
 
