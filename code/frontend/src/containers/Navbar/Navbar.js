@@ -10,6 +10,7 @@ import {
 } from 'react-redux-firebase'
 import {
   LIST_PATH,
+  JOB_PATH,
   ACCOUNT_PATH,
   LOGIN_PATH,
   SIGNUP_PATH
@@ -94,28 +95,26 @@ export default class Navbar extends Component {
         <Link to={LOGIN_PATH}>
           <FlatButton
             label='Login'
-            style={buttonStyle}
+            style={buttonStyle}            
           />
         </Link>
       </div>
     )
 
     const rightMenu = accountExists ? (
-      <IconMenu
-        iconButtonElement={iconButton}
-        targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-        animated={false}
-      >
-        <MenuItem
-          primaryText='Account'
-          onTouchTap={() => this.context.router.push(ACCOUNT_PATH)}
+      <div className={classes.menu}>
+        <Link to={JOB_PATH}>
+          <FlatButton
+            label='Job Description Wizard'
+            style={buttonStyle}
+          />
+        </Link>
+        <FlatButton
+          label='Sign Out'
+          style={buttonStyle}
+          onClick={this.handleLogout}
         />
-        <MenuItem
-          primaryText='Sign out'
-          onTouchTap={this.handleLogout}
-        />
-      </IconMenu>
+      </div>
     ) : mainMenu
 
     return (
@@ -133,3 +132,20 @@ export default class Navbar extends Component {
     )
   }
 }
+
+
+// <IconMenu
+//     iconButtonElement={iconButton}
+//     targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+//     anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+//     animated={false}
+//   >
+//     <MenuItem
+//       primaryText='Account'
+//       onTouchTap={() => this.context.router.push(ACCOUNT_PATH)}
+//     />
+//     <MenuItem
+//       primaryText='Sign out'
+//       onTouchTap={this.handleLogout}
+//     />
+//   </IconMenu>

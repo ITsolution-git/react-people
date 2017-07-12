@@ -3,6 +3,8 @@ export const DETAIL_PATH = ':projectname'
 export const ACCOUNT_PATH = '/account'
 export const LOGIN_PATH = '/login'
 export const SIGNUP_PATH = '/signup'
+export const JOB_PATH = '/jobs'
+export const NEW_JOB_PATH = '/new'
 
 export const ACCOUNT_FORM_NAME = 'account'
 export const LOGIN_FORM_NAME = 'login'
@@ -24,7 +26,8 @@ export const paths = {
   account: ACCOUNT_PATH,
   detail: DETAIL_PATH,
   login: LOGIN_PATH,
-  signup: SIGNUP_PATH
+  signup: SIGNUP_PATH,
+  job: JOB_PATH
 }
 
 export default { ...paths, ...formNames }
