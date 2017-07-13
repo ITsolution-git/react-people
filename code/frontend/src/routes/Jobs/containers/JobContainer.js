@@ -43,7 +43,7 @@ export default class Jobs extends Component {
     myJob: false
   }
 
-  componentWillMount(){
+  componentDidMount(){
     // console.log("dfsd",this.props.auth)
     var { auth } = this.props
     if(auth != undefined){
