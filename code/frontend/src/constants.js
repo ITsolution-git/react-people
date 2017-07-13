@@ -4,6 +4,7 @@ export const ACCOUNT_PATH = '/account'
 export const LOGIN_PATH = '/login'
 export const SIGNUP_PATH = '/signup'
 export const JOB_PATH = '/jobs/new'
+export const MY_JOB_PATH = '/jobs/my_job'
 export const NEW_JOB_PATH = '/new'
 
 export const ACCOUNT_FORM_NAME = 'account'
@@ -12,6 +13,9 @@ export const SIGNUP_FORM_NAME = 'signup'
 export const NEW_PROJECT_FORM_NAME = 'newProject'
 export const RECOVER_CODE_FORM_NAME = 'recoverCode'
 export const RECOVER_EMAIL_FORM_NAME = 'recoverEmail'
+
+export const AUTHED_REDIRECT = 'AUTHED_REDIRECT'
+export const UNAUTHED_REDIRECT = 'UNAUTHED_REDIRECT'
 
 export const formNames = {
   account: ACCOUNT_FORM_NAME,
@@ -27,7 +31,8 @@ export const paths = {
   detail: DETAIL_PATH,
   login: LOGIN_PATH,
   signup: SIGNUP_PATH,
-  job: JOB_PATH
+  job: JOB_PATH,
+  my_job: MY_JOB_PATH
 }
 
 export default { ...paths, ...formNames }

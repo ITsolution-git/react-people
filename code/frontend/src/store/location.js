@@ -1,3 +1,4 @@
+import { UNAUTHED_REDIRECT, AUTHED_REDIRECT } from '../constants'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -24,8 +25,29 @@ export const updateLocation = ({ dispatch }) => {
 // Reducer
 // ------------------------------------
 const initialState = null
-export default function locationReducer (state = initialState, action) {
+export function locationReducer (state = initialState, action) {
   return action.type === LOCATION_CHANGE
     ? action.payload
     : state
+}
+
+export function datalayerReducer(state = initialState, action) {
+  console.log("type ================ ", action.type)
+	switch(action.type) { 
+   case AUTHED_REDIRECT: { 
+      console.log("Excellent"); 
+      return state;
+      break; 
+   } 
+   case UNAUTHED_REDIRECT: { 
+      console.log("Good"); 
+      return state;
+      break; 
+   }
+   default: { 
+      console.log("Invalid choice"); 
+      return state;
+      break;              
+   } 
+} 
 }

@@ -13,7 +13,8 @@ import {
   JOB_PATH,
   ACCOUNT_PATH,
   LOGIN_PATH,
-  SIGNUP_PATH
+  SIGNUP_PATH,
+  MY_JOB_PATH
 } from 'constants'
 
 // Components
@@ -103,6 +104,12 @@ export default class Navbar extends Component {
 
     const rightMenu = accountExists ? (
       <div className={classes.menu}>
+        <Link to={MY_JOB_PATH}>
+          <FlatButton
+            label='my job'
+            style={buttonStyle}
+          />
+        </Link>
         <Link to={JOB_PATH}>
           <FlatButton
             label='Job Description Wizard'

@@ -2,10 +2,9 @@
 
 .container {
   height: 100%;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
-.children {
-  height: calc(100% - 48px);
-  overflow-y: scroll;
+.children {  
+  overflow-y: auto;
   background-color: $background;
 }

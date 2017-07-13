@@ -1,11 +1,8 @@
 import { UserAuthWrapper } from 'redux-auth-wrapper'
 import { browserHistory } from 'react-router'
-import { LIST_PATH } from 'constants'
+import { JOB_PATH, AUTHED_REDIRECT, UNAUTHED_REDIRECT } from 'constants'
 import { pathToJS } from 'react-redux-firebase'
 import LoadingSpinner from 'components/LoadingSpinner'
-
-const AUTHED_REDIRECT = 'AUTHED_REDIRECT'
-const UNAUTHED_REDIRECT = 'UNAUTHED_REDIRECT'
 
 /**
  * @description Higher Order Component that redirects to `/login` instead
@@ -44,7 +41,7 @@ export const UserIsNotAuthenticated = UserAuthWrapper({ // eslint-disable-line n
   LoadingComponent: LoadingSpinner,
   failureRedirectPath: (state, props) =>
     // redirect to page user was on or to list path
-    props.location.query.redirect || LIST_PATH,
+    props.location.query.redirect || JOB_PATH,
   authSelector: ({ firebase }) => pathToJS(firebase, 'auth'),
   authenticatingSelector: ({ firebase }) =>
     (pathToJS(firebase, 'auth') === undefined) ||

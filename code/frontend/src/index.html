@@ -7,20 +7,21 @@
   <title>Tao People</title>
 </head>
 <body>
-  <div id="root" style="height: 100%"></div>
-  <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WZCVMQH" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  	<div id="root" style="height: 100%"></div>
+  	<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WZCVMQH" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-WZCVMQH');
+		
+		var dataLayerCall = function(useremail){
+			var dataLayer  = window.dataLayer || [];
+			dataLayer.push({
+				'event': 'user',
+				'logged_in' : true, //either true or false (boolean)
+				'email': useremail, //required
+				'userId': 1, //optional
+				'created_at': '1493281291', //optional
+				'name': 'Jon Doe' 
+			});
+		}
+	</script>
 </body>
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-WZCVMQH');</script>
-<script>
-	var dataLayerCall = function(useremail){
-		var dataLayer  = window.dataLayer || [];
-		dataLayer.push({
-			'event': 'user',
-			'logged_in' : true, //either true or false (boolean)
-			'email': useremail, //required
-			'userId': 1, //optional
-			'created_at': '1493281291', //optional
-			'name': 'Jon Doe' 
-		});}
-</script>
 </html>

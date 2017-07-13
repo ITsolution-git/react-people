@@ -12,7 +12,7 @@ import axios from 'axios';
 import TextField from 'components/TextField'
 import { required } from 'utils/forms'
 import classes from './NewJobComponent.scss'
-import { apiGetJobTitle } from '../../apis'
+import Api from '../../apis'
 
 const colors = [
   'Red',
@@ -29,47 +29,32 @@ const colors = [
   form: 'newJob'
 })
 export default class NewJobComponent extends Component {
-  static propTypes = {}
+  static propTypes = {
+    occupations: PropTypes.array,
+    soft_skills: PropTypes.array,
+    hard_skills: PropTypes.array,
+    profile_locations: PropTypes.array,
+    profile_language_names: PropTypes.array,
+    profile_language_proficiencys: PropTypes.array
+  }
 
   state = {
     open: this.props.open || false,
     occupation: '',
-    soft_skills: '',
-    hard_skills:'',
+    soft_skill: '',
+    hard_skill:'',
     profile_location: '',
     profile_language_name:'',
     profile_language_proficiency:'',
     language:''
   }
 
-  createLabelsJobTitle(data) {
-    let resData = data.map((item) => {
-      return {
-          value: item.id,
-          label: item.preferred_label
-      }
-    });
-    return resData;
-  }
-
-  componentDidMount(){
-    // console.log("fetch", jQuery)
-    fetch('https://www.janzz.jobs/japi/labels/?branch=softskill&q=Projekt&accesskey=378b8b51ef39ce554fdc0d19984bdcdaf4c9b7818342f8966da03e95d7ef7edcd80a9b138582cd99', {
-      method: 'GET',
-      mode: 'no-cors'
-    })
-    // apiGetJobTitle()
-    .then(res => {
-        let occupation = this.createLabelsJobTitle(res.data);
-        that.setState({occupation: occupation});
-    });
-  }
+  componentDidMount(){ }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.open) {
       this.setState({ open: true })
     }
-
   }
 
   close = () => {
@@ -84,17 +69,18 @@ export default class NewJobComponent extends Component {
 
   handleUpdateSoftSkills = (searchText) => {
     this.setState({
-      soft_skills: searchText,
+      soft_skill: searchText,
     });
   };
 
   handleUpdateHardSkills = (searchText) => {
     this.setState({
-      hard_skills: searchText,
+      hard_skill: searchText,
     });
   };
 
   handleUpdateProfileLocation = (searchText) => {
+    this.props.handleLocation(searchText)
     this.setState({
       profile_location: searchText,
     });
@@ -138,7 +124,7 @@ export default class NewJobComponent extends Component {
             className={classes.form} 
             onSubmit={this.handleSubmit}
             onError={errors => console.log(errors)}>
-            <div className="row">
+            <div className="row">                
                 <div className="col-xs-12 col-sm-7">
                    <AutoCompleteValidator
                       name="occupation"
@@ -146,7 +132,7 @@ export default class NewJobComponent extends Component {
                       searchText={this.state.occupation}
                       onUpdateInput={this.handleUpdateJobTitle}
                       maxSearchResults={4}
-                      dataSource={colors}
+                      dataSource={this.props.occupations}
                       filter={(searchText, key) => (key.indexOf(searchText) !== -1)}
                       fullWidth={true}
                       validators={['required']}
@@ -168,12 +154,12 @@ export default class NewJobComponent extends Component {
 
                 <div className="col-xs-12 col-sm-12">
                    <AutoCompleteValidator
-                      name="soft_skills"
+                      name="soft_skill"
                       floatingLabelText="Soft Skills"
-                      searchText={this.state.soft_skills}
+                      searchText={this.state.soft_skill}
                       onUpdateInput={this.handleUpdateSoftSkills}
                       maxSearchResults={4}
-                      dataSource={colors}
+                      dataSource={this.props.soft_skills}
                       filter={(searchText, key) => (key.indexOf(searchText) !== -1)}
                       fullWidth={true}
                       validators={['required']}
@@ -183,12 +169,12 @@ export default class NewJobComponent extends Component {
 
                 <div className="col-xs-12 col-sm-12">
                    <AutoCompleteValidator
-                      name="hard_skills"
+                      name="hard_skill"
                       floatingLabelText="Hard Skills"
-                      searchText={this.state.soft_skills}
+                      searchText={this.state.hard_skill}
                       onUpdateInput={this.handleUpdateHardSkills}
                       maxSearchResults={4}
-                      dataSource={colors}
+                      dataSource={this.props.hard_skills}
                       filter={(searchText, key) => (key.indexOf(searchText) !== -1)}
                       fullWidth={true}
                       validators={['required']}
@@ -198,12 +184,12 @@ export default class NewJobComponent extends Component {
 
                 <div className="col-xs-12 col-sm-12">
                    <AutoCompleteValidator
-                      name="location"
+                      name="profile_location"
                       floatingLabelText="Profile Location"
                       searchText={this.state.profile_location}
                       onUpdateInput={this.handleUpdateProfileLocation}
                       maxSearchResults={4}
-                      dataSource={colors}
+                      dataSource={this.props.profile_locations}
                       filter={(searchText, key) => (key.indexOf(searchText) !== -1)}
                       fullWidth={true}
                       validators={['required']}
@@ -212,12 +198,12 @@ export default class NewJobComponent extends Component {
                 </div>
                 <div className="col-xs-12 col-sm-7">
                   <AutoCompleteValidator
-                      name="location"
+                      name="profile_language_name"
                       floatingLabelText="Profile Language Name"
                       searchText={this.state.profile_language_name}
                       onUpdateInput={this.handleUpdateProfileLanguageName}
                       maxSearchResults={4}
-                      dataSource={colors}
+                      dataSource={this.props.profile_language_names}
                       filter={(searchText, key) => (key.indexOf(searchText) !== -1)}
                       fullWidth={true}
                       validators={['required']}
@@ -226,13 +212,18 @@ export default class NewJobComponent extends Component {
                 </div>
 
                 <div className="col-xs-12 col-sm-offset-1 col-sm-4">
-                  <TextValidator
-                      floatingLabelText="Proficiency level "
+                  <AutoCompleteValidator
                       name="profile_language_proficiency"
+                      floatingLabelText="Proficiency level"
+                      searchText={this.state.profile_language_proficiency}
+                      onUpdateInput={this.handleUpdateProfileProficiency}
+                      maxSearchResults={4}
+                      dataSource={this.props.profile_language_proficiencys}
+                      filter={(searchText, key) => (key.indexOf(searchText) !== -1)}
+                      fullWidth={true}
                       validators={['required']}
                       errorMessages={['this field is required']}
-                      fullWidth={true}
-                  />
+                    />                  
                 </div>
 
                 <div className="col-xs-12 col-sm-12">

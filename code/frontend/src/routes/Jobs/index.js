@@ -16,7 +16,7 @@ export default (store) => ({
       cb(null, Jobs)
 
     /* Webpack named bundle   */
-    }, 'Projects')
+    }, 'Jobs')
   },
   childRoutes: [
     Job // not function for sync route
