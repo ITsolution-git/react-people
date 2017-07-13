@@ -53,15 +53,12 @@ export default class NewJobComponent extends Component {
   }
 
   componentDidMount(){
-    console.log("fetch", fetch)
-    fetch('https://www.janzz.jobs/japi/concepts?search_lang=all&output_lang=en&branch=occupation&q=Projekt%20Manager', {
+    // console.log("fetch", jQuery)
+    fetch('https://www.janzz.jobs/japi/labels/?branch=softskill&q=Projekt&accesskey=378b8b51ef39ce554fdc0d19984bdcdaf4c9b7818342f8966da03e95d7ef7edcd80a9b138582cd99', {
       method: 'GET',
-      mode: 'cors',
-      headers: new Headers({          
-        'Authorization': 'Token 480713dc16970b8f29af174b1b09c476132360e036fd8423e9cf22680f44ac6230394074899de501',
-        'Access-Control-Allow-Origin':'*',
-      })
+      mode: 'no-cors'
     })
+    // apiGetJobTitle()
     .then(res => {
         let occupation = this.createLabelsJobTitle(res.data);
         that.setState({occupation: occupation});

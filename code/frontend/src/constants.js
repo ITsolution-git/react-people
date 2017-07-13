@@ -3,7 +3,7 @@ export const DETAIL_PATH = ':projectname'
 export const ACCOUNT_PATH = '/account'
 export const LOGIN_PATH = '/login'
 export const SIGNUP_PATH = '/signup'
-export const JOB_PATH = '/jobs'
+export const JOB_PATH = '/jobs/new'
 export const NEW_JOB_PATH = '/new'
 
 export const ACCOUNT_FORM_NAME = 'account'
