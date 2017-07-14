@@ -48,12 +48,14 @@ export default class Jobs extends Component {
     profile_locations: [],
     profile_language_names:[],
     profile_language_proficiencys:[],
+    lang: 'en',
+    id: 147
   }
 
   /*
   * internal methods
   */
-  createLabelsJobTitle(data) {
+  createLabels(data) {
     let resData = data.map((item) => {
       return {
           value: item.concept_id,
@@ -73,6 +75,32 @@ export default class Jobs extends Component {
     return resData;
   }
 
+  apiCall(lang){
+    Api.apiGetJobTitle(lang)
+    .then(res => {
+        let occupations = this.createLabels(res.data);
+        this.setState({occupations: occupations});
+    });
+
+    Api.apiGetSoftSkills(lang)
+    .then(res => {
+        let soft_skills = this.createLabels(res.data);
+        this.setState({soft_skills: soft_skills});
+    });
+
+    Api.apiGetHardSkills(lang)
+    .then(res => {
+        let hard_skills = this.createLabels(res.data);
+        this.setState({hard_skills: hard_skills});
+    });
+
+    Api.apiGetProfileLanguage(lang)
+    .then(res => {
+        let profile_language_names = this.createLabels(res.data);
+        this.setState({profile_language_names: profile_language_names});
+    });
+  }
+
   /*
   * component apis
   */
@@ -84,39 +112,14 @@ export default class Jobs extends Component {
       }      
     }, 1000);
 
-    Api.apiGetJobTitle()
-    .then(res => {
-        let occupations = this.createLabelsJobTitle(res.data);
-        this.setState({occupations: occupations});
-    });
-
-    Api.apiGetSoftSkills()
-    .then(res => {
-        let soft_skills = this.createLabelsJobTitle(res.data);
-        this.setState({soft_skills: soft_skills});
-    });
-
-    Api.apiGetHardSkills()
-    .then(res => {
-        let hard_skills = this.createLabelsJobTitle(res.data);
-        this.setState({hard_skills: hard_skills});
-    });
-
-    Api.apiGetProfileLanguage()
-    .then(res => {
-        let profile_language_names = this.createLabelsJobTitle(res.data);
-        this.setState({profile_language_names: profile_language_names});
-    });
-
-    Api.apiGetProfileProficiency()
-    .then(res => {
-        let profile_language_proficiencys = this.createLabelsJobTitle(res.data);
-        this.setState({profile_language_proficiencys: profile_language_proficiencys});
-    });
+    this.apiCall(this.state.lang);
   }
 
-  handleLocation(location){
-    Api.apiGetProfileLocation(location)
+  /*
+  * handlers
+  */
+  handleLocation(lang, location){
+    Api.apiGetProfileLocation(lang, location)
     .then(res => {
       let profile_locations = this.createLabelsLocation(res.data.predictions);
       console.log(profile_locations)
@@ -124,6 +127,47 @@ export default class Jobs extends Component {
     })
   }
 
+  handleChangeLang(lang) {
+    if(lang != this.state.lang){
+      this.apiCall(lang);
+      this.setState({lang: lang})
+    }
+  }
+
+  handleChangeJobTitle(lang, search_text) {
+    Api.apiGetJobTitle(lang, search_text)
+    .then(res => {
+        let occupations = this.createLabels(res.data);
+        if(occupations != []){
+          this.setState({occupations: occupations});          
+        }
+    });
+  }
+
+  handleChangeProfileLanguage(lang, search_text){
+    Api.apiGetProfileLanguage(lang, search_text)
+    .then(res => {
+        let profile_language_names = this.createLabels(res.data);
+        this.setState({profile_language_names: profile_language_names});
+    });
+  }
+
+  handleChangeSoftSkills(lang, search_text){
+    Api.apiGetSoftSkills(lang, search_text)
+    .then(res => {
+        let soft_skills = this.createLabels(res.data);
+        this.setState({soft_skills: soft_skills});
+    });
+  }
+
+  handleChangeHardSkills(lang, search_text){
+    Api.apiGetHardSkills(lang, search_text)
+    .then(res => {
+        let hard_skills = this.createLabels(res.data);
+        this.setState({hard_skills: hard_skills});
+    });
+  }
+  
   /*
   * render method
   */
@@ -144,19 +188,20 @@ export default class Jobs extends Component {
 
     return (
       <div className={classes.container}>
-        {
-          newJob &&
             <NewJobComponent
-              key={1} 
+              key={this.state.id}
               occupations={this.state.occupations}  
               soft_skills={this.state.soft_skills}
               hard_skills={this.state.hard_skills}
               profile_locations={this.state.profile_locations}
               profile_language_names={this.state.profile_language_names}
-              profile_language_proficiencys={this.state.profile_language_proficiencys}
               handleLocation={this.handleLocation.bind(this)}
+              handleChangeLang={this.handleChangeLang.bind(this)}
+              handleChangeJobTitle={this.handleChangeJobTitle.bind(this)}
+              handleChangeProfileLanguage={this.handleChangeProfileLanguage.bind(this)}
+              handleChangeSoftSkills={this.handleChangeSoftSkills.bind(this)}
+              handleChangeHardSkills={this.handleChangeHardSkills.bind(this)}
             />
-        }        
       </div>
     )
   }

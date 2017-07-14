@@ -7,23 +7,12 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import AutoComplete from 'material-ui/AutoComplete';
-import { ValidatorForm, AutoCompleteValidator, TextValidator } from 'react-material-ui-form-validator';
+import { ValidatorForm, AutoCompleteValidator, TextValidator,SelectValidator } from 'react-material-ui-form-validator';
 import axios from 'axios';
 import TextField from 'components/TextField'
 import { required } from 'utils/forms'
 import classes from './NewJobComponent.scss'
 import Api from '../../apis'
-
-const colors = [
-  'Red',
-  'Orange',
-  'Yellow',
-  'Green',
-  'Blue',
-  'Purple',
-  'Black',
-  'White',
-];
 
 @reduxForm({
   form: 'newJob'
@@ -35,7 +24,6 @@ export default class NewJobComponent extends Component {
     hard_skills: PropTypes.array,
     profile_locations: PropTypes.array,
     profile_language_names: PropTypes.array,
-    profile_language_proficiencys: PropTypes.array
   }
 
   state = {
@@ -46,7 +34,7 @@ export default class NewJobComponent extends Component {
     profile_location: '',
     profile_language_name:'',
     profile_language_proficiency:'',
-    language:''
+    language:'en'
   }
 
   componentDidMount(){ }
@@ -62,31 +50,35 @@ export default class NewJobComponent extends Component {
   }
 
   handleUpdateJobTitle = (searchText) => {
+    this.props.handleChangeJobTitle(this.state.language, searchText)
     this.setState({
       occupation: searchText,
     });
   };
 
   handleUpdateSoftSkills = (searchText) => {
+    this.props.handleChangeSoftSkills(this.state.language, searchText)
     this.setState({
       soft_skill: searchText,
     });
   };
 
   handleUpdateHardSkills = (searchText) => {
+    this.props.handleChangeHardSkills(this.state.language, searchText)
     this.setState({
       hard_skill: searchText,
     });
   };
 
   handleUpdateProfileLocation = (searchText) => {
-    this.props.handleLocation(searchText)
+    this.props.handleLocation(this.state.language, searchText)
     this.setState({
       profile_location: searchText,
     });
   };
 
   handleUpdateProfileLanguageName = (searchText) => {
+    this.props.handleChangeProfileLanguage(this.state.language, searchText)
     this.setState({
       profile_language_name: searchText,
     });
@@ -96,7 +88,14 @@ export default class NewJobComponent extends Component {
 
   }
 
-  handleLanguageChange = (event, index, value) => this.setState({language: value});
+  handleLanguageChange = (event, index, value) => {
+    this.setState({language: value})
+    this.props.handleChangeLang(value);
+  }
+
+  handleUpdateProfileProficiency = (event, index, value) => {
+    this.setState({profile_language_proficiency: value})
+  }
 
   render () {
     const { open } = this.state
@@ -104,11 +103,11 @@ export default class NewJobComponent extends Component {
 
     const actions = [
       <RaisedButton
-        label='Cancel'
+        label='Tell People'
         secondary
       />,
       <RaisedButton
-        label='Create'
+        label='Save'
         type='submit'
         onClick={this.handleSubmit}
         className={classes.createbutton}
@@ -118,38 +117,48 @@ export default class NewJobComponent extends Component {
 
     return (
       <Card className={classes.container}>
-        <CardTitle title="New Job Description" subtitle="JDW" />
+          <div className="row">
+            <div className="col-xs-12 col-sm-7">
+              <CardTitle title="New Job Description" subtitle="JDW" />
+            </div>
+            <div className="col-xs-12 col-sm-offset-1 col-sm-4">
+              <SelectField
+                floatingLabelText="Language of Job Description"
+                value={this.state.language}
+                onChange={this.handleLanguageChange}
+                fullWidth={true}
+              >
+                <MenuItem value={null} primaryText="" />
+                <MenuItem value={'en'} primaryText="English" />
+                <MenuItem value={'de'} primaryText="German" />
+              </SelectField>
+            </div>
+          </div>
           <ValidatorForm 
             ref="form" 
             className={classes.form} 
             onSubmit={this.handleSubmit}
             onError={errors => console.log(errors)}>
-            <div className="row">                
+            <div className="row">
                 <div className="col-xs-12 col-sm-7">
                    <AutoCompleteValidator
                       name="occupation"
                       floatingLabelText="Job Title"
+                      animated={false}
+                      menuCloseDelay={100}
                       searchText={this.state.occupation}
                       onUpdateInput={this.handleUpdateJobTitle}
-                      maxSearchResults={4}
+                      maxSearchResults={8}
                       dataSource={this.props.occupations}
-                      filter={(searchText, key) => (key.indexOf(searchText) !== -1)}
+                      filter={(searchText, key) => (key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)}
                       fullWidth={true}
+                      value={this.state.occupation}
                       validators={['required']}
-                      errorMessages={['this field is required']}
+                      errorMessages={['This field is required']}
                     />
                 </div>
                 <div className="col-xs-12 col-sm-offset-1 col-sm-4">
-                  <SelectField
-                    floatingLabelText="Language"
-                    value={this.state.language}
-                    onChange={this.handleLanguageChange}
-                    fullWidth={true}
-                  >
-                    <MenuItem value={null} primaryText="" />
-                    <MenuItem value={'english'} primaryText="English" />
-                    <MenuItem value={'german'} primaryText="German" />
-                  </SelectField>
+                  
                 </div>
 
                 <div className="col-xs-12 col-sm-12">
@@ -158,12 +167,13 @@ export default class NewJobComponent extends Component {
                       floatingLabelText="Soft Skills"
                       searchText={this.state.soft_skill}
                       onUpdateInput={this.handleUpdateSoftSkills}
-                      maxSearchResults={4}
+                      maxSearchResults={8}
                       dataSource={this.props.soft_skills}
-                      filter={(searchText, key) => (key.indexOf(searchText) !== -1)}
+                      filter={(searchText, key) => (key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)}
                       fullWidth={true}
+                      value={this.state.soft_skill}
                       validators={['required']}
-                      errorMessages={['this field is required']}
+                      errorMessages={['This field is required']}
                     />
                 </div>
 
@@ -173,12 +183,13 @@ export default class NewJobComponent extends Component {
                       floatingLabelText="Hard Skills"
                       searchText={this.state.hard_skill}
                       onUpdateInput={this.handleUpdateHardSkills}
-                      maxSearchResults={4}
+                      maxSearchResults={8}
                       dataSource={this.props.hard_skills}
-                      filter={(searchText, key) => (key.indexOf(searchText) !== -1)}
+                      filter={(searchText, key) => (key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)}
                       fullWidth={true}
+                      value={this.state.hard_skill}
                       validators={['required']}
-                      errorMessages={['this field is required']}
+                      errorMessages={['This field is required']}
                     />
                 </div>
 
@@ -188,42 +199,47 @@ export default class NewJobComponent extends Component {
                       floatingLabelText="Profile Location"
                       searchText={this.state.profile_location}
                       onUpdateInput={this.handleUpdateProfileLocation}
-                      maxSearchResults={4}
+                      maxSearchResults={8}
                       dataSource={this.props.profile_locations}
-                      filter={(searchText, key) => (key.indexOf(searchText) !== -1)}
+                      filter={(searchText, key) => (key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)}
                       fullWidth={true}
                       validators={['required']}
-                      errorMessages={['this field is required']}
+                      value={this.state.profile_location}
+                      errorMessages={['This field is required']}
                     />
                 </div>
                 <div className="col-xs-12 col-sm-7">
                   <AutoCompleteValidator
                       name="profile_language_name"
-                      floatingLabelText="Profile Language Name"
+                      floatingLabelText="The talend should speak"
                       searchText={this.state.profile_language_name}
                       onUpdateInput={this.handleUpdateProfileLanguageName}
-                      maxSearchResults={4}
+                      maxSearchResults={8}
                       dataSource={this.props.profile_language_names}
-                      filter={(searchText, key) => (key.indexOf(searchText) !== -1)}
+                      filter={(searchText, key) => (key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)}
                       fullWidth={true}
+                      value={this.state.profile_language_name}
                       validators={['required']}
-                      errorMessages={['this field is required']}
+                      errorMessages={['This field is required']}
                     />
                 </div>
 
                 <div className="col-xs-12 col-sm-offset-1 col-sm-4">
-                  <AutoCompleteValidator
-                      name="profile_language_proficiency"
+                    <SelectValidator
                       floatingLabelText="Proficiency level"
-                      searchText={this.state.profile_language_proficiency}
-                      onUpdateInput={this.handleUpdateProfileProficiency}
-                      maxSearchResults={4}
-                      dataSource={this.props.profile_language_proficiencys}
-                      filter={(searchText, key) => (key.indexOf(searchText) !== -1)}
+                      name="profile_language_proficiency"
+                      value={this.state.profile_language_proficiency}
+                      onChange={this.handleUpdateProfileProficiency}
                       fullWidth={true}
                       validators={['required']}
-                      errorMessages={['this field is required']}
-                    />                  
+                      errorMessages={['This field is required']}
+                    >
+                      <MenuItem value={'Elementary'} primaryText="Elementary" />
+                      <MenuItem value={'Limited'} primaryText="Limited" />
+                      <MenuItem value={'Professional'} primaryText="Professional" />
+                      <MenuItem value={'Fluent'} primaryText="Fluent" />
+                      <MenuItem value={'Native or Bilingual'} primaryText="Native or Bilingual" />
+                    </SelectValidator>
                 </div>
 
                 <div className="col-xs-12 col-sm-12">

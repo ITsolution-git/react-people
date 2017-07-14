@@ -9,6 +9,20 @@ import classes from './OneJobComponent.scss'
 
 export default class OneJobComponent extends Component {
   static propTypes = {
+    key:PropTypes.number,
+    id: PropTypes.number,
+    type: PropTypes.string,
+    picture: PropTypes.string,
+    name: PropTypes.string,
+    surname: PropTypes.name,
+    company: PropTypes.company,
+    hiredate: PropTypes.string,
+    industry: PropTypes.string,
+    location: PropTypes.string,
+    url: PropTypes.string,
+    title: PropTypes.string,
+    language: PropTypes.string,
+    score: PropTypes.number
   }
 
   state = {
@@ -20,20 +34,31 @@ export default class OneJobComponent extends Component {
     return (
       <Card className={classes.container}>
         <CardHeader
-          title="Without Avatar"
-          subtitle="Subtitle"
+          title={this.props.name + ' ' + this.props.surname}
+          avatar={this.props.picture}
           actAsExpander={true}
           showExpandableButton={true}
         />
-        <CardActions>
-          <FlatButton label="Action1" />
-          <FlatButton label="Action2" />
-        </CardActions>
+        <div className="row">
+          <div className="col-xs-4 col-sm-4">Title</div>
+          <div className="col-xs-8 col-sm-8">{this.props.title}</div>
+          <div className="col-xs-4 col-sm-4">Industry</div>
+          <div className="col-xs-8 col-sm-8">{this.props.industry}</div>
+          <div className="col-xs-4 col-sm-4">Language</div>
+          <div className="col-xs-8 col-sm-8">{this.props.language}</div>
+          <div className="col-xs-4 col-sm-4">Location</div>
+          <div className="col-xs-8 col-sm-8">{this.props.location}</div>
+          <div className="col-xs-4 col-sm-4">Score</div>
+          <div className="col-xs-8 col-sm-8">{this.props.score}</div>
+        </div>
+
         <CardText expandable={true}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-          Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-          Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+          <div className="row">
+            <div className="col-xs-4 col-sm-4">Company</div>
+            <div className="col-xs-8 col-sm-8">{this.props.company}</div>
+            <div className="col-xs-4 col-sm-4">Hired Date</div>
+            <div className="col-xs-8 col-sm-8">{this.props.hiredate}</div>
+          </div>
         </CardText>
       </Card>
     )
