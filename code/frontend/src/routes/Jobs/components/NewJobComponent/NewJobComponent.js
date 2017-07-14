@@ -15,6 +15,7 @@ import TextField from 'components/TextField'
 import { required } from 'utils/forms'
 import classes from './NewJobComponent.scss'
 import TagAutoCompleteValidator from 'components/TagAutoCompleteValidator'
+import TagAutoComplete from 'components/TagAutoComplete'
 import Api from '../../apis'
 
 @reduxForm({
@@ -188,7 +189,7 @@ export default class NewJobComponent extends Component {
                 </div>
 
                 <div className="col-xs-12 col-sm-12">
-                   <TagAutoCompleteValidator                  
+                   <TagAutoComplete                  
                     name="soft_skill"
                     defTags={this.props.soft_skills}
                     sourceTags={this.props.soft_skills}
@@ -197,13 +198,11 @@ export default class NewJobComponent extends Component {
                     value={this.state.soft_skill}
                     onChange={this.handleUpdateSoftSkills.bind(this)}
                     onAdd={this.handleAfterAddedTagSoft.bind(this)}
-                    validators={['required']}
-                    errorMessages={['This field is required']}
                   />
                 </div>                
 
                 <div className="col-xs-12 col-sm-12">
-                   <TagAutoCompleteValidator
+                   <TagAutoComplete
                       name="hard_skill"
                       textField={{floatingLabelText:"Hard Skills", maxSearchResults:8}}
                       searchText={this.state.hard_skill}
@@ -212,8 +211,6 @@ export default class NewJobComponent extends Component {
                       onChange={this.handleUpdateHardSkills.bind(this)}
                       onAdd={this.handleAfterAddedTagHard.bind(this)}
                       value={this.state.hard_skill}
-                      validators={['required']}
-                      errorMessages={['This field is required']}
                     />
                 </div>
 

@@ -34,12 +34,19 @@ export default class OneJobComponent extends Component {
     return (
       <Card className={classes.container}>
         <CardHeader
-          title={this.props.name + ' ' + this.props.surname}
-          avatar={this.props.picture}
           actAsExpander={true}
           showExpandableButton={true}
         />
-        <div className="row">
+        
+        <div className="row center-xs center-sm">
+            <div className="col-xs-10 col-sm-10">
+                <img src={this.props.picture} className={classes.profile_image} alt="" />
+            </div>
+
+            <h2> {this.props.name} {this.props.surname}</h2>
+        </div>
+        <div className="row ">
+
           <div className="col-xs-4 col-sm-4">Title</div>
           <div className="col-xs-8 col-sm-8">{this.props.title}</div>
           <div className="col-xs-4 col-sm-4">Industry</div>

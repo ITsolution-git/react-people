@@ -245,7 +245,8 @@ class TagAutoComplete extends Component{
       let childEl=child?child:<ContentAdd />;//something inside button
 
       style={...style};
-      // style.verticalAlign="top";
+      style.verticalAlign="top";
+      style.marginTop="1rem"
 
       button=(
         <FloatingActionButton mini={true} style={style} {...otherButtonProps} onClick={this.buttonClickHandler.bind(this)}   >
