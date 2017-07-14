@@ -43,7 +43,9 @@ export default class OneJobComponent extends Component {
                 <img src={this.props.picture} className={classes.profile_image} alt="" />
             </div>
 
-            <h2> {this.props.name} {this.props.surname}</h2>
+            <h2 className={classes.name}> {this.props.name} {this.props.surname}</h2>
+            <h4 className={classes.title}> {this.props.title} </h4>
+
         </div>
         <div className="row ">
 
