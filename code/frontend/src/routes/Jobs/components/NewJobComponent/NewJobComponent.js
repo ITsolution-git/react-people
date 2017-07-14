@@ -5,13 +5,16 @@ import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import ActionGrade from 'material-ui/svg-icons';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import AutoComplete from 'material-ui/AutoComplete';
 import { ValidatorForm, AutoCompleteValidator, TextValidator,SelectValidator } from 'react-material-ui-form-validator';
+import ChipInput from 'material-ui-chip-input'
 import axios from 'axios';
 import TextField from 'components/TextField'
 import { required } from 'utils/forms'
 import classes from './NewJobComponent.scss'
+import TagAutoCompleteValidator from 'components/TagAutoCompleteValidator'
 import Api from '../../apis'
 
 @reduxForm({
@@ -30,6 +33,7 @@ export default class NewJobComponent extends Component {
     open: this.props.open || false,
     occupation: '',
     soft_skill: '',
+    soft_skills: [],
     hard_skill:'',
     profile_location: '',
     profile_language_name:'',
@@ -97,6 +101,23 @@ export default class NewJobComponent extends Component {
     this.setState({profile_language_proficiency: value})
   }
 
+  handleUpdateSoftSkillsTag = (searchText) => {
+    this.props.handleChangeSoftSkills(this.state.language, searchText)
+    let data = this.state.soft_skills;
+    data.push(searchText);
+    this.setState({
+      soft_skills: data,
+    });
+  }
+
+  handleAfterAddedTagSoft = () => {
+    this.setState({soft_skill: ''})
+  }
+
+  handleAfterAddedTagHard = () => {
+    this.setState({hard_skill: ''})
+  }
+
   render () {
     const { open } = this.state
     // const { handleSubmit } = this.props
@@ -162,31 +183,29 @@ export default class NewJobComponent extends Component {
                 </div>
 
                 <div className="col-xs-12 col-sm-12">
-                   <AutoCompleteValidator
-                      name="soft_skill"
-                      floatingLabelText="Soft Skills"
-                      searchText={this.state.soft_skill}
-                      onUpdateInput={this.handleUpdateSoftSkills}
-                      maxSearchResults={8}
-                      dataSource={this.props.soft_skills}
-                      filter={(searchText, key) => (key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)}
-                      fullWidth={true}
-                      value={this.state.soft_skill}
-                      validators={['required']}
-                      errorMessages={['This field is required']}
-                    />
-                </div>
+                   <TagAutoCompleteValidator                  
+                    name="soft_skill"
+                    defTags={this.props.soft_skills}
+                    sourceTags={this.props.soft_skills}
+                    textField={{floatingLabelText:"Soft Skills", maxSearchResults:8}}
+                    searchText={this.state.soft_skill}
+                    value={this.state.soft_skill}
+                    onChange={this.handleUpdateSoftSkills.bind(this)}
+                    onAdd={this.handleAfterAddedTagSoft.bind(this)}
+                    validators={['required']}
+                    errorMessages={['This field is required']}
+                  />
+                </div>                
 
                 <div className="col-xs-12 col-sm-12">
-                   <AutoCompleteValidator
+                   <TagAutoCompleteValidator
                       name="hard_skill"
-                      floatingLabelText="Hard Skills"
+                      textField={{floatingLabelText:"Hard Skills", maxSearchResults:8}}
                       searchText={this.state.hard_skill}
-                      onUpdateInput={this.handleUpdateHardSkills}
-                      maxSearchResults={8}
-                      dataSource={this.props.hard_skills}
-                      filter={(searchText, key) => (key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)}
-                      fullWidth={true}
+                      defTags={this.props.hard_skills}
+                      sourceTags={this.props.hard_skills}
+                      onChange={this.handleUpdateHardSkills.bind(this)}
+                      onAdd={this.handleAfterAddedTagHard.bind(this)}
                       value={this.state.hard_skill}
                       validators={['required']}
                       errorMessages={['This field is required']}
