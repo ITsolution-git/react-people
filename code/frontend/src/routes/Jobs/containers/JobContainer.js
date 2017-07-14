@@ -22,10 +22,9 @@ const populates = [
 @UserIsAuthenticated
 @firebaseConnect()
 @connect(
-  ({ firebase }, { params }) => ({
+  ({ firebase }) => ({
     auth: pathToJS(firebase, 'auth'),
-    profile: pathToJS(firebase, 'profile'),
-    // projects: populatedDataToJS(firebase, 'projects', populates)
+    account: pathToJS(firebase, 'profile')
   })
 )
 export default class Jobs extends Component {
@@ -38,7 +37,7 @@ export default class Jobs extends Component {
     firebase: PropTypes.object,
     auth: PropTypes.object,
     children: PropTypes.object,
-    profile: PropTypes.object
+    account: PropTypes.object
   }
 
   state = {
@@ -108,11 +107,9 @@ export default class Jobs extends Component {
   */
   componentDidMount(){
     setTimeout(()=> {
-      var { auth, profile } = this.props
-      console.log('profile', profile);
-      console.log('auth', auth);
+      var { auth, account } = this.props
       if(auth != undefined){
-        window.dataLayerCall(auth.email)
+        window.dataLayerCall(auth.email, account.name + ' ' + account.surname)
       }      
     }, 1000);
 
