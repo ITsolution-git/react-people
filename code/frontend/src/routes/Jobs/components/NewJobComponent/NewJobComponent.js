@@ -198,17 +198,20 @@ export default class NewJobComponent extends Component {
                 </div>
 
                 <div className="col-xs-12 col-sm-12">
-                   <TagAutoComplete                  
-                    name="soft_skill"
-                    defTags={this.props.soft_skills}
-                    sourceTags={this.props.soft_skills}
-                    textField={{floatingLabelText:"Soft Skills", maxSearchResults:8}}
-                    searchText={this.state.soft_skill}
-                    value={this.state.soft_skill}
-                    onChange={this.handleUpdateSoftSkills.bind(this)}
-                    onAdd={this.handleAfterAddedTagSoft.bind(this)}
-                  />
-                </div>                
+                   <AutoCompleteValidator
+                      name="profile_location"
+                      floatingLabelText="Profile Location"
+                      searchText={this.state.profile_location}
+                      onUpdateInput={this.handleUpdateProfileLocation}
+                      maxSearchResults={8}
+                      dataSource={this.props.profile_locations}
+                      filter={(searchText, key) => (key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)}
+                      fullWidth={true}
+                      validators={['required']}
+                      value={this.state.profile_location}
+                      errorMessages={['This field is required']}
+                    />
+                </div>
 
                 <div className="col-xs-12 col-sm-12">
                    <TagAutoComplete
@@ -224,20 +227,18 @@ export default class NewJobComponent extends Component {
                 </div>
 
                 <div className="col-xs-12 col-sm-12">
-                   <AutoCompleteValidator
-                      name="profile_location"
-                      floatingLabelText="Profile Location"
-                      searchText={this.state.profile_location}
-                      onUpdateInput={this.handleUpdateProfileLocation}
-                      maxSearchResults={8}
-                      dataSource={this.props.profile_locations}
-                      filter={(searchText, key) => (key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)}
-                      fullWidth={true}
-                      validators={['required']}
-                      value={this.state.profile_location}
-                      errorMessages={['This field is required']}
-                    />
-                </div>
+                   <TagAutoComplete                  
+                    name="soft_skill"
+                    defTags={this.props.soft_skills}
+                    sourceTags={this.props.soft_skills}
+                    textField={{floatingLabelText:"Soft Skills", maxSearchResults:8}}
+                    searchText={this.state.soft_skill}
+                    value={this.state.soft_skill}
+                    onChange={this.handleUpdateSoftSkills.bind(this)}
+                    onAdd={this.handleAfterAddedTagSoft.bind(this)}
+                  />
+                </div> 
+                                
                 <div className="col-xs-12 col-sm-7">
                   <AutoCompleteValidator
                       name="profile_language_name"
