@@ -45,7 +45,9 @@ export default class Jobs extends Component {
     myJob: false,
     occupations: [],
     soft_skills: [],
+    def_soft_skills: [],
     hard_skills:[],
+    def_hard_skills: [],
     profile_locations: [],
     profile_language_names:[],
     profile_language_proficiencys:[],
@@ -169,7 +171,7 @@ export default class Jobs extends Component {
   handleChangeSoftSkills(lang, search_text){
     Api.apiGetSoftSkills(lang, search_text)
     .then(res => {
-        let soft_skills = this.createLabelsSkill(res.data);
+        let soft_skills = this.createLabels(res.data);
         this.setState({soft_skills: soft_skills});
     });
   }
@@ -187,7 +189,7 @@ export default class Jobs extends Component {
     .then(res => {
       console.log("res ", res);
       let soft_skills = this.createLabelsSkill(res.data.results);
-      this.setState({soft_skills: soft_skills});      
+      this.setState({def_soft_skills: soft_skills});      
       
     })
   }
@@ -197,7 +199,7 @@ export default class Jobs extends Component {
     .then(res => {
       console.log("res ", res);
       let hard_skills = this.createLabelsSkill(res.data.results);
-      this.setState({hard_skills: hard_skills});
+      this.setState({def_hard_skills: hard_skills});
 
       
     })
@@ -231,7 +233,9 @@ export default class Jobs extends Component {
               key={this.state.id}
               occupations={this.state.occupations}  
               soft_skills={this.state.soft_skills}
+              def_soft_skills={this.state.def_soft_skills}
               hard_skills={this.state.hard_skills}
+              def_hard_skills={this.state.def_hard_skills}
               profile_locations={this.state.profile_locations}
               profile_language_names={this.state.profile_language_names}
               handleLocation={this.handleLocation.bind(this)}

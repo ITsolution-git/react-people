@@ -26,6 +26,8 @@ export default class NewJobComponent extends Component {
     occupations: PropTypes.array,
     soft_skills: PropTypes.array,
     hard_skills: PropTypes.array,
+    def_soft_skills: PropTypes.array,
+    def_hard_skills: PropTypes.array,
     profile_locations: PropTypes.array,
     profile_language_names: PropTypes.array,
   }
@@ -218,7 +220,7 @@ export default class NewJobComponent extends Component {
                       name="hard_skill"
                       textField={{floatingLabelText:"Hard Skills", maxSearchResults:8}}
                       searchText={this.state.hard_skill}
-                      defTags={this.props.hard_skills}
+                      defTags={this.props.def_hard_skills}
                       sourceTags={this.props.hard_skills}
                       onChange={this.handleUpdateHardSkills.bind(this)}
                       onAdd={this.handleAfterAddedTagHard.bind(this)}
@@ -229,7 +231,7 @@ export default class NewJobComponent extends Component {
                 <div className="col-xs-12 col-sm-12">
                    <TagAutoComplete                  
                     name="soft_skill"
-                    defTags={this.props.soft_skills}
+                    defTags={this.props.def_soft_skills}
                     sourceTags={this.props.soft_skills}
                     textField={{floatingLabelText:"Soft Skills", maxSearchResults:8}}
                     searchText={this.state.soft_skill}
@@ -238,7 +240,7 @@ export default class NewJobComponent extends Component {
                     onAdd={this.handleAfterAddedTagSoft.bind(this)}
                   />
                 </div> 
-                                
+
                 <div className="col-xs-12 col-sm-7">
                   <AutoCompleteValidator
                       name="profile_language_name"
