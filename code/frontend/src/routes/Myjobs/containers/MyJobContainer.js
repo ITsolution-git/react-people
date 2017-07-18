@@ -137,7 +137,7 @@ export default class Signup extends Component {
                 <MenuItem value={4} primaryText="Native or bilingual proficiency" />
               </SelectField>
 
-              <FlatButton label="Adapt Filter" secondary={true} style={{'width': '100%'}} />
+              <FlatButton label="Apply Filter" secondary={true} style={{'width': '100%'}} />
             </Drawer>
           </div>
         {
