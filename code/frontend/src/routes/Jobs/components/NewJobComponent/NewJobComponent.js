@@ -120,10 +120,10 @@ export default class NewJobComponent extends Component {
   }
 
   handleOccupationNewRequest = (searchText, index) => {
-    console.log("searchText ", searchText)
+    console.log("searchText ", this.state.language)
 
-    this.props.handleOccupationForSoftSkill(this.state.lang, searchText.text);
-    this.props.handleOccupationForHardSkill(this.state.lang, searchText.text);
+    this.props.handleOccupationForSoftSkill(this.state.language, searchText.text);
+    this.props.handleOccupationForHardSkill(this.state.language, searchText.text);
   }
 
   render () {
