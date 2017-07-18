@@ -8,7 +8,7 @@ import {
   isLoaded,
   isEmpty
 } from 'react-redux-firebase'
-import { JOB_PATH, NEW_JOB_PATH } from 'constants'
+import { JOB_PATH, NEW_JOB_PATH,MY_JOB_PATH } from 'constants'
 import { UserIsAuthenticated } from 'utils/router'
 import LoadingSpinner from 'components/LoadingSpinner'
 import NewJobComponent from '../components/NewJobComponent'
@@ -120,6 +120,8 @@ export default class Jobs extends Component {
   * handlers
   */
   handleLocation(lang, location){
+    if(location == '') return;
+    
     Api.apiGetProfileLocation(lang, location)
     .then(res => {
       let profile_locations = this.createLabelsLocation(res.data.predictions);
@@ -169,6 +171,10 @@ export default class Jobs extends Component {
     });
   }
 
+  handleGotoMyJob(){
+    this.context.router.push(`${MY_JOB_PATH}`);
+  }
+
   /*
   * render method
   */
@@ -202,6 +208,7 @@ export default class Jobs extends Component {
               handleChangeProfileLanguage={this.handleChangeProfileLanguage.bind(this)}
               handleChangeSoftSkills={this.handleChangeSoftSkills.bind(this)}
               handleChangeHardSkills={this.handleChangeHardSkills.bind(this)}
+              handleGotoMyJob={this.handleGotoMyJob.bind(this)}
             />
       </div>
     )

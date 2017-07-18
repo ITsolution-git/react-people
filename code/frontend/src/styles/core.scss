@@ -41,4 +41,25 @@
   [type=button]{
     -webkit-appearance: none !important;
   }
+
+  .one_job_container {
+    padding: 0.25rem;
+    display: inline-block;
+  }
+
+  @media only screen and (min-width: 64em){
+    .col-md-3-4 {
+        -ms-flex-preferred-size: 33.33333%;
+        flex-basis: 33.33333%;
+        max-width: 33.33333%;
+    }
+  }
+
+  @media only screen and (min-width: 80em){
+    .col-md-3-4 {
+        -ms-flex-preferred-size: 25%;
+        flex-basis: 25%;
+        max-width: 25%;
+    }
+  }
 }
