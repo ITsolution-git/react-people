@@ -76,6 +76,17 @@ export default class Jobs extends Component {
     return resData;
   }
 
+  createLabelsSkill(data){
+    let resData = data.map((item) => {
+      return {
+        value: item.cid,
+        label: item.label
+      }
+    });
+    console.log(resData)
+    return resData;
+  }
+
   apiCall(lang){
     Api.apiGetJobTitle(lang)
     .then(res => {
@@ -158,7 +169,7 @@ export default class Jobs extends Component {
   handleChangeSoftSkills(lang, search_text){
     Api.apiGetSoftSkills(lang, search_text)
     .then(res => {
-        let soft_skills = this.createLabels(res.data);
+        let soft_skills = this.createLabelsSkill(res.data);
         this.setState({soft_skills: soft_skills});
     });
   }
@@ -169,6 +180,27 @@ export default class Jobs extends Component {
         let hard_skills = this.createLabels(res.data);
         this.setState({hard_skills: hard_skills});
     });
+  }
+
+  handleOccupationForSoftSkill(lang, search_text){
+    Api.apiGetSoftSkillsRelatedToJobTitle(lang, search_text)
+    .then(res => {
+      console.log("res ", res);
+      let soft_skills = this.createLabelsSkill(res.data.results);
+      this.setState({soft_skills: soft_skills});      
+      
+    })
+  }
+
+  handleOccupationForHardSkill(lang, search_text) {
+    Api.apiGetHardSkillsRelatedToJobTitle(lang, search_text)
+    .then(res => {
+      console.log("res ", res);
+      let hard_skills = this.createLabelsSkill(res.data.results);
+      this.setState({hard_skills: hard_skills});
+
+      
+    })
   }
 
   handleGotoMyJob(){
@@ -209,6 +241,8 @@ export default class Jobs extends Component {
               handleChangeSoftSkills={this.handleChangeSoftSkills.bind(this)}
               handleChangeHardSkills={this.handleChangeHardSkills.bind(this)}
               handleGotoMyJob={this.handleGotoMyJob.bind(this)}
+              handleOccupationForSoftSkill={this.handleOccupationForSoftSkill.bind(this)}
+              handleOccupationForHardSkill={this.handleOccupationForHardSkill.bind(this)}
             />
       </div>
     )

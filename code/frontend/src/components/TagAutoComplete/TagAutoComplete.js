@@ -17,6 +17,7 @@ class TagAutoComplete extends Component{
       tags:props.defTags,
       value:"",
       errorText:null,
+      showMessage: false,
       sourceTags:props.sourceTags.slice() //copy of source tags - we will change it
     }
 
@@ -31,6 +32,19 @@ class TagAutoComplete extends Component{
     //set error text value
     this.errorText=(this.props.textField && this.props.textField.errorText)?this.props.textField.errorText:"Value is required";
 
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.props.defTags != nextProps.defTags){
+      this.setState({
+        tags: nextProps.defTags
+      });
+      if(nextProps.defTags.length == 0) {
+        this.setState({showMessage: true})
+      }else{
+        this.setState({showMessage: false});
+      }
+    }
   }
 
 
@@ -215,6 +229,7 @@ class TagAutoComplete extends Component{
 
     return (
       <Chip
+        style={{margin: '0.1rem'}}
         {...otherChip}
         key={key}
         onRequestDelete={() => this.handleRequestDelete(data, key)}
@@ -227,11 +242,16 @@ class TagAutoComplete extends Component{
 
   render(){
 
-    const tags=this.state.tags.map((tag,index)=>{
+    let tags = []
+    if(this.state.tags[0] != undefined) {
+      if(this.state.tags[0].label != undefined) {
+        tags=this.state.tags.map((tag,index)=>{
 
-        return this.renderTag(tag,index);
+            return this.renderTag(tag,index);
 
-    });
+        });
+      }
+    }
 
 
 
@@ -278,6 +298,10 @@ class TagAutoComplete extends Component{
         </div>
         <div style={this.getContainerStyle()} className={this.getContainerClassName()} >
           {tags}
+          {
+            this.state.showMessage &&
+              <i>No Result</i>
+          }
         </div>
       </div>
 

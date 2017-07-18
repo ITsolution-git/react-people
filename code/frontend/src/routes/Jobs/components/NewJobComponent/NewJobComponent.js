@@ -119,6 +119,13 @@ export default class NewJobComponent extends Component {
     this.setState({hard_skill: ''})
   }
 
+  handleOccupationNewRequest = (searchText, index) => {
+    console.log("searchText ", searchText)
+
+    this.props.handleOccupationForSoftSkill(this.state.lang, searchText.text);
+    this.props.handleOccupationForHardSkill(this.state.lang, searchText.text);
+  }
+
   render () {
     const { open } = this.state
     // const { handleSubmit } = this.props
@@ -176,6 +183,7 @@ export default class NewJobComponent extends Component {
                       menuCloseDelay={100}
                       searchText={this.state.occupation}
                       onUpdateInput={this.handleUpdateJobTitle}
+                      onNewRequest={this.handleOccupationNewRequest}
                       maxSearchResults={8}
                       dataSource={this.props.occupations}
                       filter={(searchText, key) => (key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)}

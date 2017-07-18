@@ -115,7 +115,7 @@ export default class Signup extends Component {
                    style={{marginLeft: '1rem'}}
                  />
               <TextField
-                   hintText=""
+                   hintText="Country of Name"
                    floatingLabelText="Location"
                    style={{marginLeft: '1rem'}}
                  />
