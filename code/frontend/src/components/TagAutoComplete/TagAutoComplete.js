@@ -221,6 +221,10 @@ class TagAutoComplete extends Component{
     this.setState({errorText:null});
   }
 
+  getTags() {
+    return this.state.tags
+  }
+
 
   //render single tag
   renderTag(data,key){

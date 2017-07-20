@@ -1,8 +1,10 @@
 @import 'base';
 
 .container {
-  padding: 2rem;
-  width: 100%;
-  min-height: 530px;
-  background-color: inherit;
+  @extend .flex-column-center;
+  justify-content: flex-start;
+  padding-top: 30px;
+  flex-grow: 2;
+  box-sizing: border-box;
+  overflow-y: auto;
 }

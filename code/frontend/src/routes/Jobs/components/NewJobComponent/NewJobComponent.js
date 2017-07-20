@@ -18,6 +18,7 @@ import TagAutoCompleteValidator from 'components/TagAutoCompleteValidator'
 import TagAutoComplete from 'components/TagAutoComplete'
 import Api from '../../apis'
 
+
 @reduxForm({
   form: 'newJob'
 })
@@ -44,7 +45,9 @@ export default class NewJobComponent extends Component {
     language:'en'
   }
 
-  componentDidMount(){ }
+  componentDidMount(){
+    console.log(this.props.children)
+  }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.open) {
@@ -92,7 +95,39 @@ export default class NewJobComponent extends Component {
   };
 
   handleSubmit = () => {
+    let body = {
+      "contract_type_list": [],
+      "description": null,
+      "education_list": [],
+      "function_list": [],
+      "industry_list": [],
+      "janzz_id": null,
+      "janzz_updated": null,
+      "keyword_list": [],
+      "language_captured": null,
+      "language_list": [],
+      "location_list": [],
+      "occupation": "1st job test",
+      "skill_list": [],
+      "softskill_list": [],
+      "specialization_list": [],
+      "title": null,
+      "unique_id": null
+    }
 
+    body.occupation = this.state.occupation
+    body.location_list.push(this.state.profile_location)
+    this._hard_skill.getTags().forEach((tag) => {
+      body.skill_list.push(tag.label)
+    });
+    this._soft_skill.getTags().forEach((tag) => {
+      body.softskill_list.push(tag.label)
+    });
+    body.language_list.push(this.state.profile_language_name)
+    body.education_list.push(this.state.profile_language_proficiency)
+
+    console.log(body)
+    this.props.handlePostJob(body)
   }
 
   handleLanguageChange = (event, index, value) => {
@@ -119,6 +154,8 @@ export default class NewJobComponent extends Component {
 
   handleAfterAddedTagHard = () => {
     this.setState({hard_skill: ''})
+
+    console.log("fdsafdsafdsa", this._hard_skill)
   }
 
   handleOccupationNewRequest = (searchText, index) => {
@@ -225,6 +262,7 @@ export default class NewJobComponent extends Component {
                       onChange={this.handleUpdateHardSkills.bind(this)}
                       onAdd={this.handleAfterAddedTagHard.bind(this)}
                       value={this.state.hard_skill}
+                      ref={(ref) => this._hard_skill = ref}
                     />
                 </div>
 
@@ -238,6 +276,7 @@ export default class NewJobComponent extends Component {
                     value={this.state.soft_skill}
                     onChange={this.handleUpdateSoftSkills.bind(this)}
                     onAdd={this.handleAfterAddedTagSoft.bind(this)}
+                    ref={(ref) => this._soft_skill = ref}
                   />
                 </div> 
 

@@ -19,7 +19,7 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton'
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import { SHA256_KEY } from 'constants'
+import { JOB_PATH, NEW_JOB_PATH,MY_JOB_PATH,SHA256_KEY } from 'constants'
 import { UserIsAuthenticated } from 'utils/router'
 import OneJobComponent from '../components/OneJobComponent'
 import LoadingSpinner from 'components/LoadingSpinner'
@@ -35,6 +35,10 @@ import Api from '../apis'
   })
 )
 export default class Signup extends Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+  
   static propTypes = {
     firebase: PropTypes.object,
     auth: PropTypes.object,
@@ -43,6 +47,7 @@ export default class Signup extends Component {
   state = {
     snackCanOpen: false,
     profiles: [],
+    jobs:[],
     loading: true,
     open: false,
     langlevel: 1
@@ -62,7 +67,7 @@ export default class Signup extends Component {
 
     Api.getLongListProfiles()
     .then(res => {
-      this.setState({profiles:res.data.results });
+      this.setState({jobs:res.data.results });
       this.setState({loading: false});
     })
   }
@@ -71,101 +76,38 @@ export default class Signup extends Component {
 
   handleToggle = () => this.setState({open: !this.state.open});
 
+  handleNavigate(){
+    this.context.router.push(`${JOB_PATH}`);
+  }
+
+  getDate() {
+    return (new Date().toISOString().slice(0,10).replace(/-/g,""))
+  }
 
   render () {
-    const { profiles } = this.props
+    const { jobs } = this.props
 
     // if (profiles == undefined) {
     //   return <LoadingSpinner />
     // }
-
+    
     return (
-      <div className={classes.container}>
-        <div className="row">
-            <RaisedButton
-              label="Filter"
-              onTouchTap={this.handleToggle}
-            />
-            <Drawer
-              openSecondary={true} 
-              open={this.state.open}
-              onRequestChange={(open) => this.setState({open})}
-              docked={false}>
-              <AppBar title="Filter" />
-              <TextField
-                   hintText=""
-                   floatingLabelText="Level of Working Experience"
-                   style={{marginLeft: '1rem', fontSize: '0.8rem'}}
-                 />
-              <TextField
-                   hintText=""
-                   floatingLabelText="Level of Industry Experience"
-                   style={{marginLeft: '1rem', fontSize: '0.8rem'}}
-                 />
-              <TextField
-                   hintText=""
-                   floatingLabelText="Age"
-                   style={{marginLeft: '1rem', fontSize: '0.8rem'}}
-                 />
-
-              <TextField
-                   hintText=""
-                   floatingLabelText="Level of Education"
-                   style={{marginLeft: '1rem', fontSize: '0.8rem'}}
-                 />
-              <TextField
-                   hintText=""
-                   floatingLabelText="Size of Company"
-                   style={{marginLeft: '1rem', fontSize: '0.8rem'}}
-                 />
-              <TextField
-                   hintText="Country of Name"
-                   floatingLabelText="Location"
-                   style={{marginLeft: '1rem', fontSize: '0.8rem'}}
-                 />
-
-              <TextField
-                   hintText=""
-                   style={{marginLeft: '1rem', fontSize: '0.8rem'}}
-                   floatingLabelText="Languages"
-                 />
-              <SelectField
-                floatingLabelText="Level of Secondary Language"
-                onChange={this.handleLangLevelChange.bind(this)}
-                value={this.state.langlevel}
-                style={{marginLeft: '1rem', fontSize: '0.8rem'}}
-              >
-                <MenuItem value={1} primaryText="Elementary proficiency" />
-                <MenuItem value={2} primaryText="Limited working proficiency" />
-                <MenuItem value={3} primaryText="Full professional proficiency" />
-                <MenuItem value={4} primaryText="Native or bilingual proficiency" />
-              </SelectField>
-
-              <FlatButton label="Apply Filter" secondary={true} style={{'width': '100%'}} />
-            </Drawer>
-          </div>
+      <div className={classes.container}>        
         {
           this.state.loading &&
             <LoadingSpinner />
         }
 
         {          
-          map(this.state.profiles, (profile, key) => (
+          map(this.state.jobs, (job, key) => (
             <OneJobComponent
-              key={profile.id}
-              id={profile.id}
-              type={profile.janzz_typ}
-              picture={profile.image_url}
-              name={profile.given_name}
-              surname={profile.family_name}
-              company={profile.company || ''}
-              hiredate={profile.hire_start_dt || ''}
-              industry={profile.industry}
-              location={profile.location}
-              url={profile.profile_url}
-              title={profile.title}
-              language={profile.language_captured}
-              score={profile.score}
+              key={key}
+              id={key}
+              title={job.title}
+              // location={job.location_list}
+              location="Zurich Switzerland"
+              date={this.getDate()}
+              handleNavigate={this.handleNavigate.bind(this)}
             />   
           ))
         }

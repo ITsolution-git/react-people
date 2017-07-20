@@ -63,7 +63,7 @@ export default class Jobs extends Component {
   createLabels(data) {
     let resData = data.map((item) => {
       return {
-          value: item.concept_id,
+          value: item.label,
           text: item.label
       }
     });
@@ -73,7 +73,7 @@ export default class Jobs extends Component {
   createLabelsLocation(data) {
     let resData = data.map((item) => {
       return {
-          value: item.place_id,
+          value: item.description,
           text: item.description
       }
     });
@@ -83,7 +83,7 @@ export default class Jobs extends Component {
   createLabelsSkill(data){
     let resData = data.map((item) => {
       return {
-        value: item.cid,
+        value: item.label,
         label: item.label
       }
     });
@@ -208,6 +208,13 @@ export default class Jobs extends Component {
     })
   }
 
+  handlePostJob(body) {
+    Api.apiPostJob(body)
+    .then(res => {
+      console.log('res', res)
+    })
+  }
+
   handleGotoMyJob(){
     this.context.router.push(`${MY_JOB_PATH}`);
   }
@@ -250,6 +257,7 @@ export default class Jobs extends Component {
               handleGotoMyJob={this.handleGotoMyJob.bind(this)}
               handleOccupationForSoftSkill={this.handleOccupationForSoftSkill.bind(this)}
               handleOccupationForHardSkill={this.handleOccupationForHardSkill.bind(this)}
+              handlePostJob={this.handlePostJob.bind(this)}
             />
       </div>
     )

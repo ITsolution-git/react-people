@@ -38,7 +38,12 @@ const apiGetProfileProficiency = (lang='en') => {
   return axios.get(`https://www.janzz.jobs/japi/labels/?limit=30&lang=${lang}&branch=language&q=*&accesskey=378b8b51ef39ce554fdc0d19984bdcdaf4c9b7818342f8966da03e95d7ef7edcd80a9b138582cd99`)
 }
 
-export default { 
+const apiPostJob = (body) => {
+  return axios.post('http://api.gleaming-idiom-167311.appspot.com/api/v1/jobs/', body)
+}
+
+export default {
+  apiPostJob, 
   apiGetJobTitle, 
   apiGetSoftSkills,
   apiGetHardSkills,
