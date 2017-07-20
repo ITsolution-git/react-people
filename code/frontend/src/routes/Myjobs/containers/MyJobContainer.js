@@ -91,45 +91,45 @@ export default class Signup extends Component {
               <TextField
                    hintText=""
                    floatingLabelText="Level of Working Experience"
-                   style={{marginLeft: '1rem'}}
+                   style={{marginLeft: '1rem', fontSize: '0.8rem'}}
                  />
               <TextField
                    hintText=""
                    floatingLabelText="Level of Industry Experience"
-                   style={{marginLeft: '1rem'}}
+                   style={{marginLeft: '1rem', fontSize: '0.8rem'}}
                  />
               <TextField
                    hintText=""
                    floatingLabelText="Age"
-                   style={{marginLeft: '1rem'}}
+                   style={{marginLeft: '1rem', fontSize: '0.8rem'}}
                  />
 
               <TextField
                    hintText=""
                    floatingLabelText="Level of Education"
-                   style={{marginLeft: '1rem'}}
+                   style={{marginLeft: '1rem', fontSize: '0.8rem'}}
                  />
               <TextField
                    hintText=""
                    floatingLabelText="Size of Company"
-                   style={{marginLeft: '1rem'}}
+                   style={{marginLeft: '1rem', fontSize: '0.8rem'}}
                  />
               <TextField
                    hintText="Country of Name"
                    floatingLabelText="Location"
-                   style={{marginLeft: '1rem'}}
+                   style={{marginLeft: '1rem', fontSize: '0.8rem'}}
                  />
 
               <TextField
                    hintText=""
-                   style={{marginLeft: '1rem'}}
+                   style={{marginLeft: '1rem', fontSize: '0.8rem'}}
                    floatingLabelText="Languages"
                  />
               <SelectField
                 floatingLabelText="Level of Secondary Language"
                 onChange={this.handleLangLevelChange.bind(this)}
                 value={this.state.langlevel}
-                style={{marginLeft: '1rem'}}
+                style={{marginLeft: '1rem', fontSize: '0.8rem'}}
               >
                 <MenuItem value={1} primaryText="Elementary proficiency" />
                 <MenuItem value={2} primaryText="Limited working proficiency" />

@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import AppContainer from './containers/App/App'
 import createStore from './store/createStore'
+import GoogleTagManager from './components/GoogleTagManager'
+
 
 // ========================================================
 // Store and History Instantiation

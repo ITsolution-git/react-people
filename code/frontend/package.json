@@ -67,6 +67,7 @@
     "react": "15.3.2",
     "react-dom": "15.3.2",
     "react-google-button": "^0.1.0",
+    "react-google-tag-manager": "^2.1.0",
     "react-material-tags": "^1.0.1",
     "react-material-ui-form-validator": "^0.5.0",
     "react-redux": "^4.4.5",
