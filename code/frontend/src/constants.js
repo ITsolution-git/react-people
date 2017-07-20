@@ -17,6 +17,8 @@ export const RECOVER_EMAIL_FORM_NAME = 'recoverEmail'
 export const AUTHED_REDIRECT = 'AUTHED_REDIRECT'
 export const UNAUTHED_REDIRECT = 'UNAUTHED_REDIRECT'
 
+export const SHA256_KEY = 'Z7cqdScy6Wux8LhkSuR3TldtBwZBxjU-OapMXeU9'
+
 export const formNames = {
   account: ACCOUNT_FORM_NAME,
   signup: SIGNUP_FORM_NAME,

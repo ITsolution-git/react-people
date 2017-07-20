@@ -8,12 +8,14 @@ import {
   isLoaded,
   isEmpty
 } from 'react-redux-firebase'
-import { JOB_PATH, NEW_JOB_PATH,MY_JOB_PATH } from 'constants'
+import sha256 from 'js-sha256'
+import { JOB_PATH, NEW_JOB_PATH,MY_JOB_PATH,SHA256_KEY } from 'constants'
 import { UserIsAuthenticated } from 'utils/router'
 import LoadingSpinner from 'components/LoadingSpinner'
 import NewJobComponent from '../components/NewJobComponent'
 import classes from './JobContainer.scss'
 import Api from '../apis'
+
 
 const populates = [
   { child: 'createdBy', root: 'users', keyProp: 'uid' }
@@ -122,7 +124,8 @@ export default class Jobs extends Component {
     setTimeout(()=> {
       var { auth, account } = this.props
       if(auth != undefined){
-        window.dataLayerCall(auth.email, account.name + ' ' + account.surname)
+        let hash = sha256.hmac(SHA256_KEY, auth.email);
+        window.dataLayerCall(auth.email, account.name + ' ' + account.surname, hash);
       }      
     }, 1000);
 

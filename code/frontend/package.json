@@ -60,6 +60,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.16.2",
+    "js-sha256": "^0.6.0",
     "lodash": "^4.17.2",
     "material-ui": "0.16.0",
     "material-ui-chip-input": "^0.15.1",

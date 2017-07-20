@@ -9,6 +9,7 @@ import {
   isEmpty,
   pathToJS
 } from 'react-redux-firebase'
+import sha256 from 'js-sha256'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
 import Drawer from 'material-ui/Drawer';
@@ -18,6 +19,7 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton'
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import { SHA256_KEY } from 'constants'
 import { UserIsAuthenticated } from 'utils/router'
 import OneJobComponent from '../components/OneJobComponent'
 import LoadingSpinner from 'components/LoadingSpinner'
@@ -53,9 +55,11 @@ export default class Signup extends Component {
     setTimeout(()=> {
       var { auth, account } = this.props
       if(auth != undefined){
-        window.dataLayerCall(auth.email, account.name + ' ' + account.surname)
+        let hash = sha256.hmac(SHA256_KEY, auth.email);
+        window.dataLayerCall(auth.email, account.name + ' ' + account.surname, hash);
       }      
     }, 1000);
+
     Api.getLongListProfiles()
     .then(res => {
       this.setState({profiles:res.data.results });

@@ -1,10 +1,19 @@
-<!doctype html><html lang="en"><head><script>var dataLayerCall = function(useremail, name){
+<!doctype html><html lang="en"><head><script>var dataLayerCall = function(useremail, name, hash){
+      window.intercomSettings={
+        app_id:"ulzt87a9",
+        email: useremail,
+        user_hash: hash
+      };
+
+      (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/ulzt87a9';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()
+
   		var dataLayer  = window.dataLayer || [];
   		dataLayer.push({
   			'event': 'user',
   			'logged_in' : true, //either true or false (boolean)
   			'email': useremail, //required
   			'created_at': (new Date()).getTime(),
-  			'name': name
+  			'name': name,
+        'user_hash': hash
   		});
-  	}</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css"><title>Tao People</title><link href="/app.a810bb40fa61618d7338906bf757e596.css" rel="stylesheet"></head><body><div id="root" style="height: 100%"></div><script type="text/javascript" src="/vendor.adbf04370a8b1428ca92.js"></script><script type="text/javascript" src="/app.fd7b2ac661f288a25d56.js"></script></body></html>
+  	}</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css"><title>Tao People</title><link href="/app.a810bb40fa61618d7338906bf757e596.css" rel="stylesheet"></head><body><div id="root" style="height: 100%"></div><script type="text/javascript" src="/vendor.6efc5d9d5840d62e0659.js"></script><script type="text/javascript" src="/app.ab82955d59f121f2a4d3.js"></script></body></html>
