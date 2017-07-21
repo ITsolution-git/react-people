@@ -177,13 +177,13 @@ export default class NewJobComponent extends Component {
       <RaisedButton
         label='Find Talent'
         className={classes.findtalent}
-        onClick={this.props.handleGotoMyJob}
+        onClick={this.props.handleFindTalent}
         primary
       />,
       <RaisedButton
         label='Save'
         type='submit'
-        onClick={this.handleSubmit}
+        onClick={this.handleSubmit.bind(this)}
         className={classes.createbutton}
         primary
       />

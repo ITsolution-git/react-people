@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import classes from './Navbar.scss'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
+
 import {
   firebaseConnect,
   pathToJS,
@@ -18,6 +19,9 @@ import {
 } from 'constants'
 
 // Components
+import RaisedButton from 'material-ui/RaisedButton';
+import Popover from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
 import AppBar from 'material-ui/AppBar'
 import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
@@ -30,13 +34,14 @@ import defaultUserImage from 'static/User.png'
 const buttonStyle = {
   color: 'white',
   textDecoration: 'none',
-  alignSelf: 'center'
+  alignSelf: 'center',
+  marginRight: '1rem'
 }
 
 const avatarStyles = {
   wrapper: { marginTop: 0 },
   button: { marginRight: '.5rem', width: '200px', height: '64px' },
-  buttonSm: { marginRight: '.5rem', width: '30px', height: '64px', padding: '0' }
+  buttonSm: { marginRight: '2rem', cursor: 'pointer' }
 }
 
 @firebaseConnect()
@@ -57,16 +62,55 @@ export default class Navbar extends Component {
     firebase: PropTypes.object.isRequired
   }
 
+  state = {
+    openLogin: false,
+    openJob:false
+  }
+
+  handleLoginMenuTouchTap = (event) => {
+    // This prevents ghost click.
+    this.setState({
+      openLogin: true,
+      anchorEl: event.currentTarget,
+    });
+  };
+
+  handleJobMenuTouchTap = (event) => {
+    // This prevents ghost click.
+    this.setState({
+      openJob: true,
+      anchorEl: event.currentTarget,
+    });
+  };
+
+  handleLoginMenuRequestClose = () => {
+    this.setState({
+      openLogin: false,
+      openJob: false
+    });
+  };
+
+  handleGotoNewJob = () => {
+    this.context.router.push(JOB_PATH)
+    this.handleLoginMenuRequestClose()
+  }
+
+  handleGotoMyJob = () => {
+    this.context.router.push(MY_JOB_PATH)
+    this.handleLoginMenuRequestClose()
+  }
+
+
   handleLogout = () => {
     this.props.firebase.logout()
     this.context.router.push('/')
+    this.handleLoginMenuRequestClose() 
   }
 
   render () {
     const { account } = this.props
     const accountExists = isLoaded(account) && !isEmpty(account)
-    console.log('account', account)
-    console.log("accountExists", accountExists)
+
     const iconButton = (
       <IconButton style={avatarStyles.button} disableTouchRipple>
         <div className={classes.avatar}>
@@ -103,24 +147,49 @@ export default class Navbar extends Component {
     )
 
     const rightMenu = accountExists ? (
-      <div className={classes.menu}>
-        <Link to={MY_JOB_PATH}>
-          <FlatButton
-            label='my job'
-            style={buttonStyle}
-          />
-        </Link>
-        <Link to={JOB_PATH}>
-          <FlatButton
-            label='Job Description Wizard'
-            style={buttonStyle}
-          />
-        </Link>
-        <FlatButton
-          label='Sign Out'
-          style={buttonStyle}
-          onClick={this.handleLogout}
-        />
+      <div>
+        <div className={classes.avatar}>          
+          <div className={classes['avatar-text']}>
+            <FlatButton 
+              label="Jobs" 
+              style={buttonStyle}
+              onTouchTap={this.handleJobMenuTouchTap} />
+          </div>
+          <div className='hidden-mobile'>
+            <Avatar
+              src={accountExists && account.avatarUrl ? account.avatarUrl : defaultUserImage}
+              onTouchTap={this.handleLoginMenuTouchTap}
+              style={avatarStyles.buttonSm}
+            />
+          </div>          
+        </div>
+        
+        <Popover
+          open={this.state.openLogin}
+          anchorEl={this.state.anchorEl}
+          anchorOrigin={{horizontal: 'middle', vertical: 'bottom'}}
+          targetOrigin={{horizontal: 'middle', vertical: 'top'}}
+          onRequestClose={this.handleLoginMenuRequestClose}
+        >
+          <Menu>
+            <MenuItem primaryText="Profile" />
+            <MenuItem primaryText="Sign out" onTouchTap={this.handleLogout}/>
+          </Menu>
+        </Popover>
+        
+        <Popover
+          open={this.state.openJob}
+          anchorEl={this.state.anchorEl}
+          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+          targetOrigin={{horizontal: 'left', vertical: 'top'}}
+          onRequestClose={this.handleLoginMenuRequestClose}
+        >
+          <Menu>
+            <MenuItem primaryText="New Job" onTouchTap={ this.handleGotoNewJob.bind(this) } />
+            <MenuItem primaryText="My Jobs" onTouchTap={ this.handleGotoMyJob.bind(this) }/>
+            <MenuItem primaryText="My Posting"/>
+          </Menu>
+        </Popover>
       </div>
     ) : mainMenu
 

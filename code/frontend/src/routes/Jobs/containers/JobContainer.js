@@ -209,14 +209,16 @@ export default class Jobs extends Component {
   }
 
   handlePostJob(body) {
-    Api.apiPostJob(body)
-    .then(res => {
-      console.log('res', res)
-    })
+    // this.context.router.push(`${MY_JOB_PATH}`);
+    // Api.apiPostJob(body)
+    // .then(res => {
+    //   console.log('res', res)
+    //   this.context.router.push(`${MY_JOB_PATH}`);
+    // })
   }
 
-  handleGotoMyJob(){
-    this.context.router.push(`${MY_JOB_PATH}`);
+  handleFindTalent(){
+    
   }
 
   /*
@@ -254,7 +256,7 @@ export default class Jobs extends Component {
               handleChangeProfileLanguage={this.handleChangeProfileLanguage.bind(this)}
               handleChangeSoftSkills={this.handleChangeSoftSkills.bind(this)}
               handleChangeHardSkills={this.handleChangeHardSkills.bind(this)}
-              handleGotoMyJob={this.handleGotoMyJob.bind(this)}
+              handleFindTalent={this.handleFindTalent.bind(this)}
               handleOccupationForSoftSkill={this.handleOccupationForSoftSkill.bind(this)}
               handleOccupationForHardSkill={this.handleOccupationForHardSkill.bind(this)}
               handlePostJob={this.handlePostJob.bind(this)}
