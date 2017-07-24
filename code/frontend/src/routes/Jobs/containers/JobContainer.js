@@ -242,7 +242,8 @@ export default class Jobs extends Component {
       return cloneElement(this.props.children, this.props)
     }
     let newOrEdit = false
-    if (params.id != ""){
+    console.log(params.id)
+    if (params.id != undefined){
       newOrEdit = true
     }
     console.log(newOrEdit)
