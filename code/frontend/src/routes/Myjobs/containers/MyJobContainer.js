@@ -19,7 +19,7 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton'
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import { JOB_PATH, NEW_JOB_PATH,MY_JOB_PATH,SHA256_KEY } from 'constants'
+import { JOB_PATH, ID_JOB_PATH , MY_JOB_PATH, SHA256_KEY } from 'constants'
 import { UserIsAuthenticated } from 'utils/router'
 import OneJobComponent from '../components/OneJobComponent'
 import LoadingSpinner from 'components/LoadingSpinner'
@@ -34,7 +34,7 @@ import Api from '../apis'
     account: pathToJS(firebase, 'profile')    
   })
 )
-export default class Signup extends Component {
+export default class MyJobContainer extends Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
@@ -65,7 +65,7 @@ export default class Signup extends Component {
       }      
     }, 1000);
 
-    Api.getLongListProfiles()
+    Api.apiGetJobList()
     .then(res => {
       this.setState({jobs:res.data.results });
       this.setState({loading: false});
@@ -76,8 +76,9 @@ export default class Signup extends Component {
 
   handleToggle = () => this.setState({open: !this.state.open});
 
-  handleNavigate(){
-    this.context.router.push(`${JOB_PATH}`);
+  handleNavigate(id){
+    console.log(id)
+    this.context.router.push(`${JOB_PATH}/${id}`);
   }
 
   getDate() {
@@ -85,12 +86,7 @@ export default class Signup extends Component {
   }
 
   render () {
-    const { jobs } = this.props
-
-    // if (profiles == undefined) {
-    //   return <LoadingSpinner />
-    // }
-    
+    console.log(this.state.jobs)
     return (
       <div className={classes.container}>        
         {
@@ -103,11 +99,10 @@ export default class Signup extends Component {
             <OneJobComponent
               key={key}
               id={key}
-              title={job.title}
-              // location={job.location_list}
-              location="Zurich Switzerland"
+              title={job.occupation}
+              location={job.location_list[0]}
               date={this.getDate()}
-              handleNavigate={this.handleNavigate.bind(this)}
+              handleNavigate={this.handleNavigate.bind(this, job.id)}
             />   
           ))
         }

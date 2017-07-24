@@ -26,11 +26,7 @@ export default class NewTodoPanel extends Component {
       <Paper className={classes.container}>
         <Subheader>New Todo</Subheader>
         <div className={classes.inputSection}>
-          <TextField
-            floatingLabelText='New Todo Text'
-            ref='newTodo'
-            onChange={({ target }) => this.setState({text: target.value})}
-          />
+          
           <IconButton
             onClick={this.handleAdd}
             disabled={disabled}
@@ -44,3 +40,10 @@ export default class NewTodoPanel extends Component {
     )
   }
 }
+
+
+// <TextField
+//             floatingLabelText='New Todo Text'
+//             ref='newTodo'
+//             onChange={({ target }) => this.setState({text: target.value})}
+//           />

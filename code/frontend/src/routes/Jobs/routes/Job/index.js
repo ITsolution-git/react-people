@@ -1,4 +1,4 @@
-import { JOB_NEW_PATH as path } from 'constants'
+import { ID_JOB_PATH as path } from 'constants'
 import component from './components/Job'
 
 export default {

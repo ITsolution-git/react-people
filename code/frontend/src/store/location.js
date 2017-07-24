@@ -32,22 +32,22 @@ export function locationReducer (state = initialState, action) {
 }
 
 export function datalayerReducer(state = initialState, action) {
-  console.log("type ================ ", action.type)
-	switch(action.type) { 
-   case AUTHED_REDIRECT: { 
-      console.log("Excellent"); 
-      return state;
-      break; 
-   } 
-   case UNAUTHED_REDIRECT: { 
-      console.log("Good"); 
-      return state;
-      break; 
-   }
-   default: { 
-      console.log("Invalid choice"); 
-      return state;
-      break;              
-   } 
-} 
+ //  console.log("type ================ ", action.type)
+	// switch(action.type) { 
+ //     case AUTHED_REDIRECT: { 
+ //        console.log("Excellent"); 
+ //        return state;
+ //        break; 
+ //     } 
+ //     case UNAUTHED_REDIRECT: { 
+ //        console.log("Good"); 
+ //        return state;
+ //        break; 
+ //     }
+ //     default: { 
+ //        console.log("Invalid choice"); 
+ //        return state;
+ //        break;              
+ //     } 
+ //  } 
 }

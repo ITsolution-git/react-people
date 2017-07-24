@@ -15,7 +15,8 @@ import {
   ACCOUNT_PATH,
   LOGIN_PATH,
   SIGNUP_PATH,
-  MY_JOB_PATH
+  MY_JOB_PATH,
+  PROFILE_DETAIL_PATH
 } from 'constants'
 
 // Components
@@ -100,6 +101,11 @@ export default class Navbar extends Component {
     this.handleLoginMenuRequestClose()
   }
 
+  handleGotoProfile = () => {
+    this.context.router.push(PROFILE_DETAIL_PATH)
+    this.handleLoginMenuRequestClose()
+  }
+
 
   handleLogout = () => {
     this.props.firebase.logout()
@@ -172,8 +178,8 @@ export default class Navbar extends Component {
           onRequestClose={this.handleLoginMenuRequestClose}
         >
           <Menu>
-            <MenuItem primaryText="Profile" />
-            <MenuItem primaryText="Sign out" onTouchTap={this.handleLogout}/>
+            <MenuItem primaryText="Profile" onTouchTap={this.handleGotoProfile.bind(this)} />
+            <MenuItem primaryText="Sign out" onTouchTap={this.handleLogout.bind(this)}/>
           </Menu>
         </Popover>
         

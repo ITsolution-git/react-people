@@ -71,6 +71,7 @@
     "react-google-tag-manager": "^2.1.0",
     "react-material-tags": "^1.0.1",
     "react-material-ui-form-validator": "^0.5.0",
+    "react-morph-material-icons": "git+https://github.com/friktor/react-material-icons.git",
     "react-redux": "^4.4.5",
     "react-redux-firebase": "^1.4.0-rc.1",
     "react-router": "^2.8.0",

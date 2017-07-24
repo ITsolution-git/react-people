@@ -9,7 +9,7 @@ import {
   isEmpty
 } from 'react-redux-firebase'
 import sha256 from 'js-sha256'
-import { JOB_PATH, NEW_JOB_PATH,MY_JOB_PATH,SHA256_KEY } from 'constants'
+import { JOB_PATH, ID_JOB_PATH,MY_JOB_PATH,SHA256_KEY } from 'constants'
 import { UserIsAuthenticated } from 'utils/router'
 import LoadingSpinner from 'components/LoadingSpinner'
 import NewJobComponent from '../components/NewJobComponent'
@@ -39,7 +39,8 @@ export default class Jobs extends Component {
     firebase: PropTypes.object,
     auth: PropTypes.object,
     children: PropTypes.object,
-    account: PropTypes.object
+    account: PropTypes.object,
+    params: PropTypes.object
   }
 
   state = {
@@ -54,7 +55,7 @@ export default class Jobs extends Component {
     profile_language_names:[],
     profile_language_proficiencys:[],
     lang: 'en',
-    id: 147
+    id: 1223232342
   }
 
   /*
@@ -120,6 +121,10 @@ export default class Jobs extends Component {
   /*
   * component apis
   */
+  componentWillMount(){
+    console.log(this.props.params)
+  }
+
   componentDidMount(){
     setTimeout(()=> {
       var { auth, account } = this.props
@@ -225,7 +230,7 @@ export default class Jobs extends Component {
   * render method
   */
   render () {
-    const {auth } = this.props
+    const {auth, params } = this.props
 
     if (!isLoaded(auth)) {
       return <LoadingSpinner />
@@ -236,13 +241,22 @@ export default class Jobs extends Component {
       // pass all props to children routes
       return cloneElement(this.props.children, this.props)
     }
-
+    let newOrEdit = false
+    if (params.id != ""){
+      newOrEdit = true
+    }
+    console.log(newOrEdit)
     const { newJob } = this.state
 
     return (
       <div className={classes.container}>
-            <NewJobComponent
-              key={this.state.id}
+        {
+          newOrEdit &&
+            <div>ddd</div>
+        }
+        {
+          !newOrEdit &&
+            <NewJobComponent              
               occupations={this.state.occupations}  
               soft_skills={this.state.soft_skills}
               def_soft_skills={this.state.def_soft_skills}
@@ -250,6 +264,7 @@ export default class Jobs extends Component {
               def_hard_skills={this.state.def_hard_skills}
               profile_locations={this.state.profile_locations}
               profile_language_names={this.state.profile_language_names}
+              key={this.state.id}
               handleLocation={this.handleLocation.bind(this)}
               handleChangeLang={this.handleChangeLang.bind(this)}
               handleChangeJobTitle={this.handleChangeJobTitle.bind(this)}
@@ -260,7 +275,8 @@ export default class Jobs extends Component {
               handleOccupationForSoftSkill={this.handleOccupationForSoftSkill.bind(this)}
               handleOccupationForHardSkill={this.handleOccupationForHardSkill.bind(this)}
               handlePostJob={this.handlePostJob.bind(this)}
-            />
+            />          
+        }
       </div>
     )
   }

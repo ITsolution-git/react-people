@@ -42,8 +42,13 @@ const apiPostJob = (body) => {
   return axios.post('http://api.gleaming-idiom-167311.appspot.com/api/v1/jobs/', body)
 }
 
+const apiGetJobWithId = (id) => {
+  return axios.get('http://api.gleaming-idiom-167311.appspot.com/api/v1/jobs/' + id + '/') 
+}
+
 export default {
   apiPostJob, 
+  apiGetJobWithId,
   apiGetJobTitle, 
   apiGetSoftSkills,
   apiGetHardSkills,

@@ -1,0 +1,38 @@
+@import 'base';
+
+.container {
+  padding: 1rem;
+  width: 80%;
+}
+.inputs {
+  @extend .flex-column-center;
+  justify-content: center;
+  width: 100%;
+  input {
+    width: 100%;
+  }
+}
+.buttons {
+  @extend .flex-column-center;
+  justify-content: center;
+}
+
+.form{
+  padding: 1rem;
+}
+
+.autocomplete {
+  margin-top: 24px;
+}
+
+.createbutton{
+  float: right;
+}
+
+.buttongroup{
+  padding-top: 3rem;
+}
+
+.findtalent{
+  margin-left: 2rem;
+}

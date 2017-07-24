@@ -41,7 +41,7 @@ export const UserIsNotAuthenticated = UserAuthWrapper({ // eslint-disable-line n
   LoadingComponent: LoadingSpinner,
   failureRedirectPath: (state, props) =>
     // redirect to page user was on or to list path
-    props.location.query.redirect || MY_JOB_PATH,
+    props.location.query.redirect || JOB_PATH,
   authSelector: ({ firebase }) => pathToJS(firebase, 'auth'),
   authenticatingSelector: ({ firebase }) =>
     (pathToJS(firebase, 'auth') === undefined) ||

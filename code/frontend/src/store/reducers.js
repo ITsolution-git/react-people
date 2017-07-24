@@ -9,7 +9,7 @@ export const makeRootReducer = (asyncReducers) => {
     firebase,
     form,
     location: locationReducer,
-    datalayerReducer,
+    // datalayerReducer,
     ...asyncReducers
   })
 }

@@ -48,6 +48,10 @@ export default class Signup extends Component {
     return this.props.firebase.login({ provider })
   }
 
+  handleRequest(){
+    this.setState({ snackCanOpen: false })
+  }
+
   render () {
     const { authError } = this.props
     const { snackCanOpen } = this.state
@@ -78,7 +82,7 @@ export default class Signup extends Component {
               message={authError ? authError.message : 'Signup error'}
               action='close'
               autoHideDuration={3000}
-              onRequestClose={() => this.setState({ snackCanOpen: false })}
+              onRequestClose={() =>  this.handleRequest().bind(this)}
             />
         }
       </div>

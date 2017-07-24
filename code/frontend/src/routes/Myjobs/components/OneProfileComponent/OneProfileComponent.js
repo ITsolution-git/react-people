@@ -28,7 +28,7 @@ export default class OneProfileComponent extends Component {
     company: PropTypes.company,
     hiredate: PropTypes.string,
     industry: PropTypes.string,
-    location: PropTypes.string,
+    location: PropTypes.object,
     url: PropTypes.string,
     title: PropTypes.string,
     language: PropTypes.string,
@@ -40,6 +40,12 @@ export default class OneProfileComponent extends Component {
   }
 
   render () {
+
+    const {location} = this.props;
+    let loc = ""
+    if (location != undefined || location != {}){
+      loc = location['name']
+    }
 
     return (
       <div className="one_job_container col-xs-12 col-sm-6 col-md-3-4 col-md-3">
@@ -74,7 +80,7 @@ export default class OneProfileComponent extends Component {
             <ListItem
                 leftIcon={<CommunicationLocationOn color={indigo500} />}
                 primaryText="Location"
-                secondaryText={this.props.location}
+                secondaryText={loc}
               />
               <Divider inset={true} />
             <ListItem

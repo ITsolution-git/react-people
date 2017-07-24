@@ -13,7 +13,7 @@ import ChipInput from 'material-ui-chip-input'
 import axios from 'axios';
 import TextField from 'components/TextField'
 import { required } from 'utils/forms'
-import classes from './NewJobComponent.scss'
+import classes from './EditJobComponent.scss'
 import TagAutoCompleteValidator from 'components/TagAutoCompleteValidator'
 import TagAutoComplete from 'components/TagAutoComplete'
 import Api from '../../apis'
@@ -22,7 +22,7 @@ import Api from '../../apis'
 @reduxForm({
   form: 'newJob'
 })
-export default class NewJobComponent extends Component {
+export default class EditJobComponent extends Component {
   static propTypes = {
     key: PropTypes.number,
     occupations: PropTypes.array,
@@ -46,13 +46,28 @@ export default class NewJobComponent extends Component {
     language:'en'
   }
 
+  componentWillMount() {
+    console.log(this.props)
+    this.setState({
+      occupation: this.props.occupations[0],
+      profile_location: this.props.profile_locations[0],
+      profile_language_name: this.props.profile_language_names[0]
+    })
+  }
+
   componentDidMount(){
     console.log(this.props.children)
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.open) {
-      this.setState({ open: true })
+    if (this.state.occupation != nextProps.occupations[0]) {
+      console.log("====================================")
+      console.log(this.props)
+      this.setState({
+        occupation: this.props.occupations[0],
+        profile_location: this.props.profile_locations[0],
+        profile_language_name: this.props.profile_language_names[0]
+      })
     }
   }
 
