@@ -100,7 +100,7 @@ export default class MyJobContainer extends Component {
               key={key}
               id={key}
               title={job.occupation}
-              location={job.location_list[0]}
+              location={job.location_list}
               date={this.getDate()}
               handleNavigate={this.handleNavigate.bind(this, job.id)}
             />   

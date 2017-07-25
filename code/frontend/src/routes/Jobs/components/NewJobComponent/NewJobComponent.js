@@ -114,7 +114,7 @@ export default class NewJobComponent extends Component {
       "specialization_list": [],
       "title": null,
       "unique_id": null,
-      "id": this.props.id
+      "id": ""
     }
 
     body.occupation = this.state.occupation
@@ -175,8 +175,21 @@ export default class NewJobComponent extends Component {
   handleOccupationNewRequest = (searchText, index) => {
     console.log("searchText ", this.state.language)
 
+    this.setState({occupation: searchText.text});
+
     this.props.handleOccupationForSoftSkill(this.state.language, searchText.text);
     this.props.handleOccupationForHardSkill(this.state.language, searchText.text);
+  }
+
+  handleLocationNewRequest = (searchText, index) => {
+
+    this.setState({profile_location: searchText.text})
+  }
+
+
+  handleLanguageNewRequest = (searchText, index) => {
+   console.log(searchText)
+   this.setState({profile_language_name: searchText.text}) 
   }
 
   render () {
@@ -256,6 +269,7 @@ export default class NewJobComponent extends Component {
                       floatingLabelText="Profile Location"
                       searchText={this.state.profile_location}
                       onUpdateInput={this.handleUpdateProfileLocation}
+                      onNewRequest={this.handleOccupationNewRequest}
                       maxSearchResults={8}
                       dataSource={this.props.profile_locations}
                       filter={(searchText, key) => (key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)}
@@ -300,6 +314,7 @@ export default class NewJobComponent extends Component {
                       floatingLabelText="The talend should speak"
                       searchText={this.state.profile_language_name}
                       onUpdateInput={this.handleUpdateProfileLanguageName}
+                      onNewRequest={this.handleLanguageNewRequest}
                       maxSearchResults={8}
                       dataSource={this.props.profile_language_names}
                       filter={(searchText, key) => (key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)}

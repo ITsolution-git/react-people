@@ -215,11 +215,11 @@ export default class Jobs extends Component {
 
   handlePostJob(body) {
     // this.context.router.push(`${MY_JOB_PATH}`);
-    // Api.apiPostJob(body)
-    // .then(res => {
-    //   console.log('res', res)
-    //   this.context.router.push(`${MY_JOB_PATH}`);
-    // })
+    Api.apiPostJob(body)
+    .then(res => {
+      console.log('res', res)
+      this.context.router.push(`${MY_JOB_PATH}`);
+    })
   }
 
   handleFindTalent(){

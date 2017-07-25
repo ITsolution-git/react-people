@@ -22,7 +22,7 @@ export default class OneJobComponent extends Component {
     key:PropTypes.number,
     id: PropTypes.number,
     title: PropTypes.string,
-    location: PropTypes.string,
+    location: PropTypes.array,
     date: PropTypes.string,
   }
 
@@ -42,7 +42,18 @@ export default class OneJobComponent extends Component {
       greyLight: '#45505a'
     };
 
+    console.log("============================")
+    console.log(location)
+
+    let loc = ''
+    if (this.props.location.length > 0) {
+      console.log(this.props.location)
+      loc = this.props.location[0].name
+    }
+
     return (
+
+
       <div className={classes.job_container}>
         <Card  className={classes.card_container}>
           <h2 className={classes.name}> {this.props.title}</h2>
@@ -50,7 +61,7 @@ export default class OneJobComponent extends Component {
           <List>
             <ListItem
                 leftIcon={<CommunicationLocationOn color={indigo500} />}
-                primaryText={this.props.location}
+                primaryText={loc}
                 hoverColor={COLORS.blue}
                 style={{backgroundColor: COLORS.white}}
               />

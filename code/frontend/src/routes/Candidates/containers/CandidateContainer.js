@@ -52,7 +52,8 @@ export default class CandidateContainer extends Component {
     loading: true,
     open: false,
     langlevel: 1,
-    limit: 10
+    limit: 10,
+    hasmore: true
   }
 
    /*
@@ -86,19 +87,18 @@ export default class CandidateContainer extends Component {
     return (new Date().toISOString().slice(0,10).replace(/-/g,""))
   }
 
-  loadItems() {
-    console.log(this.state.limit)
+  loadItems(page) {
     Api.getLongListProfiles(this.state.limit)
-    .then(res => {
-      console.log(res.data.results.length)
-      this.setState({profiles:res.data.results });
+    .then(res => {      
       let limit = res.data.results.length + 10;
-      this.setState({limit: limit});
+      if(limit > this.state.limit){
+        this.setState({profiles:res.data.results });
+        this.setState({limit: limit});
+      }
     })
   }
 
   render () {
-    console.log(this.state.profiles)
     return (
       <div className={classes.container}>
         <InfiniteScroll
@@ -114,6 +114,7 @@ export default class CandidateContainer extends Component {
               key={key}
               id={key}
               profile={profile}
+
             />   
           ))
         }

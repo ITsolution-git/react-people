@@ -34,7 +34,7 @@ export default class OneCanComponent extends Component {
 
     let loc = ""
     if (profile.location != undefined || profile.location != {}){
-      loc = location['name']
+      loc = profile.location
     }
 
     if (profile.picture == undefined || profile.picture == ""){
@@ -44,20 +44,18 @@ export default class OneCanComponent extends Component {
     return (
       <div className="one_job_container col-xs-12 col-sm-6 col-md-3-4 col-md-3">
         <Card className={classes.card_container}>
-          <CardHeader
-            actAsExpander={true}
-            showExpandableButton={true}
-          />
+
           
           <div className="row center-xs center-sm">
               <div className="col-xs-10 col-sm-10">
                   <img src={profile.picture} className={classes.profile_image} alt="" />
               </div>
 
-              <h2 className={classes.name}> {profile.name} {profile.surname}</h2>
+              <h2 className={classes.name}> {profile.given_name} {profile.family_name}</h2>
               <h4 className={classes.title}> {profile.title} </h4>
 
           </div>
+
           <List>
             <ListItem
               leftIcon={<ActionAccountBalance color={indigo500} />}
@@ -68,7 +66,7 @@ export default class OneCanComponent extends Component {
             <ListItem
               leftIcon={<ActionLanguage color={indigo500} />}
               primaryText="Language"
-              secondaryText={profile.language}
+              secondaryText={profile.language_captured}
             />
             <Divider inset={true} />
             <ListItem
@@ -86,16 +84,24 @@ export default class OneCanComponent extends Component {
 
           <FlatButton label="More Details" secondary={true} style={{'width': '100%'}} />
 
-          <CardText expandable={true}>
-            <div className="row">
-              <div className="col-xs-4 col-sm-4">Company</div>
-              <div className="col-xs-8 col-sm-8">{profile.company}</div>
-              <div className="col-xs-4 col-sm-4">Hired Date</div>
-              <div className="col-xs-8 col-sm-8">{profile.hiredate}</div>
-            </div>
-          </CardText>
+          
         </Card>
       </div>
     )
   }
 }
+
+
+// <CardHeader
+//   actAsExpander={true}
+//   showExpandableButton={true}
+// />
+
+// <CardText expandable={true}>
+//   <div className="row">
+//     <div className="col-xs-4 col-sm-4">Company</div>
+//     <div className="col-xs-8 col-sm-8">{profile.company}</div>
+//     <div className="col-xs-4 col-sm-4">Hired Date</div>
+//     <div className="col-xs-8 col-sm-8">{profile.hiredate}</div>
+//   </div>
+// </CardText>

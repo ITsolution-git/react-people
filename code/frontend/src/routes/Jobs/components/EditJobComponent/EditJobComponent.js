@@ -60,7 +60,7 @@ export default class EditJobComponent extends Component {
         this.setState({
           occupation: nextProps.occupations[0],
           profile_location: nextProps.profile_locations[0].text,
-          profile_language_name: nextProps.profile_language_names[0].text,
+          profile_language_name: nextProps.profile_language_names[0].label,
           profile_language_proficiency: nextProps.profile_language_proficiencys[0].text
         })          
       }
