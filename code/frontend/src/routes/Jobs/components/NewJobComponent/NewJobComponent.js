@@ -114,7 +114,6 @@ export default class NewJobComponent extends Component {
       "specialization_list": [],
       "title": null,
       "unique_id": null,
-      "id": ""
     }
 
     body.occupation = this.state.occupation
@@ -269,7 +268,7 @@ export default class NewJobComponent extends Component {
                       floatingLabelText="Profile Location"
                       searchText={this.state.profile_location}
                       onUpdateInput={this.handleUpdateProfileLocation}
-                      onNewRequest={this.handleOccupationNewRequest}
+                      onNewRequest={this.handleLocationNewRequest}
                       maxSearchResults={8}
                       dataSource={this.props.profile_locations}
                       filter={(searchText, key) => (key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)}
@@ -335,11 +334,11 @@ export default class NewJobComponent extends Component {
                       validators={['required']}
                       errorMessages={['This field is required']}
                     >
-                      <MenuItem value={'Elementary'} primaryText="Elementary" />
-                      <MenuItem value={'Limited'} primaryText="Limited" />
-                      <MenuItem value={'Professional'} primaryText="Professional" />
-                      <MenuItem value={'Fluent'} primaryText="Fluent" />
-                      <MenuItem value={'Native or Bilingual'} primaryText="Native or Bilingual" />
+                      <MenuItem value={0} primaryText="Elementary" />
+                      <MenuItem value={1} primaryText="Limited" />
+                      <MenuItem value={2} primaryText="Professional" />
+                      <MenuItem value={3} primaryText="Fluent" />
+                      <MenuItem value={4} primaryText="Native or Bilingual" />
                     </SelectValidator>
                 </div>
 
