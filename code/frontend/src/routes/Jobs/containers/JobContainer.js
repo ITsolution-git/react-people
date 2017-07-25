@@ -9,7 +9,7 @@ import {
   isEmpty
 } from 'react-redux-firebase'
 import sha256 from 'js-sha256'
-import { JOB_PATH, ID_JOB_PATH,MY_JOB_PATH,SHA256_KEY } from 'constants'
+import { JOB_PATH, ID_JOB_PATH,MY_JOB_PATH,SHA256_KEY,LONG_LIST_PATH } from 'constants'
 import { UserIsAuthenticated } from 'utils/router'
 import LoadingSpinner from 'components/LoadingSpinner'
 import NewJobComponent from '../components/NewJobComponent'
@@ -223,7 +223,7 @@ export default class Jobs extends Component {
   }
 
   handleFindTalent(){
-    
+    this.context.router.push(LONG_LIST_PATH)
   }
 
   /*
@@ -251,33 +251,26 @@ export default class Jobs extends Component {
 
     return (
       <div className={classes.container}>
-        {
-          newOrEdit &&
-            <div>ddd</div>
-        }
-        {
-          !newOrEdit &&
-            <NewJobComponent              
-              occupations={this.state.occupations}  
-              soft_skills={this.state.soft_skills}
-              def_soft_skills={this.state.def_soft_skills}
-              hard_skills={this.state.hard_skills}
-              def_hard_skills={this.state.def_hard_skills}
-              profile_locations={this.state.profile_locations}
-              profile_language_names={this.state.profile_language_names}
-              key={this.state.id}
-              handleLocation={this.handleLocation.bind(this)}
-              handleChangeLang={this.handleChangeLang.bind(this)}
-              handleChangeJobTitle={this.handleChangeJobTitle.bind(this)}
-              handleChangeProfileLanguage={this.handleChangeProfileLanguage.bind(this)}
-              handleChangeSoftSkills={this.handleChangeSoftSkills.bind(this)}
-              handleChangeHardSkills={this.handleChangeHardSkills.bind(this)}
-              handleFindTalent={this.handleFindTalent.bind(this)}
-              handleOccupationForSoftSkill={this.handleOccupationForSoftSkill.bind(this)}
-              handleOccupationForHardSkill={this.handleOccupationForHardSkill.bind(this)}
-              handlePostJob={this.handlePostJob.bind(this)}
-            />          
-        }
+          <NewJobComponent              
+            occupations={this.state.occupations}  
+            soft_skills={this.state.soft_skills}
+            def_soft_skills={this.state.def_soft_skills}
+            hard_skills={this.state.hard_skills}
+            def_hard_skills={this.state.def_hard_skills}
+            profile_locations={this.state.profile_locations}
+            profile_language_names={this.state.profile_language_names}
+            key={this.state.id}
+            handleLocation={this.handleLocation.bind(this)}
+            handleChangeLang={this.handleChangeLang.bind(this)}
+            handleChangeJobTitle={this.handleChangeJobTitle.bind(this)}
+            handleChangeProfileLanguage={this.handleChangeProfileLanguage.bind(this)}
+            handleChangeSoftSkills={this.handleChangeSoftSkills.bind(this)}
+            handleChangeHardSkills={this.handleChangeHardSkills.bind(this)}
+            handleFindTalent={this.handleFindTalent.bind(this)}
+            handleOccupationForSoftSkill={this.handleOccupationForSoftSkill.bind(this)}
+            handleOccupationForHardSkill={this.handleOccupationForHardSkill.bind(this)}
+            handlePostJob={this.handlePostJob.bind(this)}
+          />          
       </div>
     )
   }

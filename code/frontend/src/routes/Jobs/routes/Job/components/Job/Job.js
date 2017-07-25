@@ -9,7 +9,7 @@ import {
   isEmpty
 } from 'react-redux-firebase'
 import sha256 from 'js-sha256'
-import { JOB_PATH, ID_JOB_PATH,MY_JOB_PATH,SHA256_KEY } from 'constants'
+import { JOB_PATH, ID_JOB_PATH,MY_JOB_PATH,SHA256_KEY,LONG_LIST_PATH } from 'constants'
 import { UserIsAuthenticated } from 'utils/router'
 import LoadingSpinner from 'components/LoadingSpinner'
 import EditJobComponent from '../../../../components/EditJobComponent'
@@ -104,8 +104,10 @@ export default class Job extends Component {
   setData(data){
   	this.setState({
   		occupations:[data.occupation],
-  		soft_skills: this.createLabelsSkillDetail(data.softskill_list),
-  		hard_skills: this.createLabelsSkillDetail(data.skill_list),
+  		def_soft_skills:this.createLabelsSkillDetail(data.softskill_list),
+  		soft_skills: [],
+  		hard_skills: [],
+  		def_hard_skills: this.createLabelsSkillDetail(data.skill_list),
   		profile_language_names: this.createLabelsLangDetail(data.language_list),
   		profile_locations: this.createLabelsLocationDetail(data.location_list),
   		profile_language_proficiencys: this.createLabelsLangProfDetail(data.language_list)
@@ -119,7 +121,7 @@ export default class Job extends Component {
         label: item.skill
       }
     });
-    console.log(resData)
+
     return resData;
   }
 
@@ -130,7 +132,11 @@ export default class Job extends Component {
         label: item.name
       }
     });
-    console.log(resData)
+    if(resData.length == 0)
+    	resData.push({
+    		value: '',
+    		label: ''
+    	});
     return resData;
   }
 
@@ -138,10 +144,14 @@ export default class Job extends Component {
   	let resData = data.map((item) => {
       return {
         value: item.proficiency,
-        label: item.proficiency
+        text: item.proficiency
       }
     });
-    console.log(resData)
+    if(resData.length == 0)
+    	resData.push({
+    		value: 0,
+    		label: 0
+    	});
     return resData;
   }
 
@@ -149,10 +159,14 @@ export default class Job extends Component {
   	let resData = data.map((item) => {
       return {
         value: item.name,
-        label: item.name
+        text: item.name
       }
     });
-    console.log(resData)
+    if(resData.length == 0)
+    	resData.push({
+    		value: '',
+    		label: ''
+    	});
     return resData;
   }  
 
@@ -178,7 +192,7 @@ export default class Job extends Component {
     //   }      
     // }, 1000);
 
-    this.apiCall(this.state.lang);
+    // this.apiCall(this.state.lang);
   }
 
   /*
@@ -259,15 +273,15 @@ export default class Job extends Component {
 
   handlePostJob(body) {
     // this.context.router.push(`${MY_JOB_PATH}`);
-    // Api.apiPostJob(body)
-    // .then(res => {
-    //   console.log('res', res)
-    //   this.context.router.push(`${MY_JOB_PATH}`);
-    // })
+    Api.apiPostJob(body)
+    .then(res => {
+      console.log('res', res)
+      this.context.router.push(`${MY_JOB_PATH}`);
+    })
   }
 
   handleFindTalent(){
-    
+    this.context.router.push(LONG_LIST_PATH)
   }
 
   /*
@@ -296,7 +310,9 @@ export default class Job extends Component {
           def_hard_skills={this.state.def_hard_skills}
           profile_locations={this.state.profile_locations}
           profile_language_names={this.state.profile_language_names}
+          profile_language_proficiencys={this.state.profile_language_proficiencys}
           key={this.state.id}
+          id={this.props.params.id}
           handleLocation={this.handleLocation.bind(this)}
           handleChangeLang={this.handleChangeLang.bind(this)}
           handleChangeJobTitle={this.handleChangeJobTitle.bind(this)}

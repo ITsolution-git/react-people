@@ -1,0 +1,26 @@
+@import 'base';
+
+
+.card_container{
+  padding: 1rem; 
+}
+
+.profile_image{
+  background-repeat: no-repeat;
+  background-position: 50%;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+}
+
+.name{
+  width: 100%;
+  margin-bottom: 0;
+  color: dimgrey;
+}
+
+.title{
+  width: 100%;
+  margin-top: 0;
+  color: darkgrey;
+}

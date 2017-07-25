@@ -47,27 +47,23 @@ export default class EditJobComponent extends Component {
   }
 
   componentWillMount() {
-    console.log(this.props)
-    this.setState({
-      occupation: this.props.occupations[0],
-      profile_location: this.props.profile_locations[0],
-      profile_language_name: this.props.profile_language_names[0]
-    })
   }
 
   componentDidMount(){
-    console.log(this.props.children)
   }
 
   componentWillReceiveProps (nextProps) {
     if (this.state.occupation != nextProps.occupations[0]) {
-      console.log("====================================")
-      console.log(this.props)
-      this.setState({
-        occupation: this.props.occupations[0],
-        profile_location: this.props.profile_locations[0],
-        profile_language_name: this.props.profile_language_names[0]
-      })
+      if (nextProps.occupations.length == 1){
+        console.log("==============================")
+        console.log(nextProps)
+        this.setState({
+          occupation: nextProps.occupations[0],
+          profile_location: nextProps.profile_locations[0].text,
+          profile_language_name: nextProps.profile_language_names[0].text,
+          profile_language_proficiency: nextProps.profile_language_proficiencys[0].text
+        })          
+      }
     }
   }
 
@@ -117,7 +113,7 @@ export default class EditJobComponent extends Component {
       "education_list": [],
       "function_list": [],
       "industry_list": [],
-      "janzz_id": null,
+      "janzz_id": 1234,
       "janzz_updated": null,
       "keyword_list": [],
       "language_captured": null,
@@ -128,19 +124,32 @@ export default class EditJobComponent extends Component {
       "softskill_list": [],
       "specialization_list": [],
       "title": null,
-      "unique_id": null
+      "unique_id": null,
+      "id": this.props.id
     }
 
     body.occupation = this.state.occupation
-    body.location_list.push(this.state.profile_location)
+    body.location_list.push({
+      "name":this.state.profile_location
+    })
+    
     this._hard_skill.getTags().forEach((tag) => {
-      body.skill_list.push(tag.label)
+      body.skill_list.push({
+        "skill":tag.label,
+        "level": 1
+      })
     });
     this._soft_skill.getTags().forEach((tag) => {
-      body.softskill_list.push(tag.label)
+      body.softskill_list.push({
+        "skill":tag.label,
+        "level": 1
+      })
     });
-    body.language_list.push(this.state.profile_language_name)
-    body.education_list.push(this.state.profile_language_proficiency)
+    body.language_list.push({
+      "name":this.state.profile_language_name,
+      "proficiency":this.state.profile_language_proficiency,
+      "proficiency2": this.state.profile_language_proficiency
+    })
 
     console.log(body)
     this.props.handlePostJob(body)
@@ -177,8 +186,20 @@ export default class EditJobComponent extends Component {
   handleOccupationNewRequest = (searchText, index) => {
     console.log("searchText ", this.state.language)
 
+    this.setState({occupation: searchText.text})
     this.props.handleOccupationForSoftSkill(this.state.language, searchText.text);
     this.props.handleOccupationForHardSkill(this.state.language, searchText.text);
+  }
+
+  handleLocationNewRequest = (searchText, index) => {
+
+    this.setState({profile_location: searchText.text})
+  }
+
+
+  handleLanguageNewRequest = (searchText, index) => {
+   console.log(searchText)
+   this.setState({profile_language_name: searchText.text}) 
   }
 
   render () {
@@ -261,6 +282,7 @@ export default class EditJobComponent extends Component {
                       maxSearchResults={8}
                       dataSource={this.props.profile_locations}
                       filter={(searchText, key) => (key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)}
+                      onNewRequest={this.handleLocationNewRequest}
                       fullWidth={true}
                       validators={['required']}
                       value={this.state.profile_location}
@@ -299,12 +321,13 @@ export default class EditJobComponent extends Component {
                 <div className="col-xs-12 col-sm-7">
                   <AutoCompleteValidator
                       name="profile_language_name"
-                      floatingLabelText="The talend should speak"
+                      floatingLabelText="The talent should speak"
                       searchText={this.state.profile_language_name}
                       onUpdateInput={this.handleUpdateProfileLanguageName}
                       maxSearchResults={8}
                       dataSource={this.props.profile_language_names}
                       filter={(searchText, key) => (key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)}
+                      onNewRequest={this.handleLanguageNewRequest}
                       fullWidth={true}
                       value={this.state.profile_language_name}
                       validators={['required']}
@@ -322,11 +345,11 @@ export default class EditJobComponent extends Component {
                       validators={['required']}
                       errorMessages={['This field is required']}
                     >
-                      <MenuItem value={'Elementary'} primaryText="Elementary" />
-                      <MenuItem value={'Limited'} primaryText="Limited" />
-                      <MenuItem value={'Professional'} primaryText="Professional" />
-                      <MenuItem value={'Fluent'} primaryText="Fluent" />
-                      <MenuItem value={'Native or Bilingual'} primaryText="Native or Bilingual" />
+                      <MenuItem value={0} primaryText="Elementary" />
+                      <MenuItem value={1} primaryText="Limited" />
+                      <MenuItem value={2} primaryText="Professional" />
+                      <MenuItem value={3} primaryText="Fluent" />
+                      <MenuItem value={4} primaryText="Native or Bilingual" />
                     </SelectValidator>
                 </div>
 

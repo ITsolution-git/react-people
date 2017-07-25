@@ -102,7 +102,7 @@ export default class NewJobComponent extends Component {
       "education_list": [],
       "function_list": [],
       "industry_list": [],
-      "janzz_id": null,
+      "janzz_id": 1234,
       "janzz_updated": null,
       "keyword_list": [],
       "language_captured": null,
@@ -113,19 +113,32 @@ export default class NewJobComponent extends Component {
       "softskill_list": [],
       "specialization_list": [],
       "title": null,
-      "unique_id": null
+      "unique_id": null,
+      "id": this.props.id
     }
 
     body.occupation = this.state.occupation
-    body.location_list.push(this.state.profile_location)
+    body.location_list.push({
+      "name":this.state.profile_location
+    })
+    
     this._hard_skill.getTags().forEach((tag) => {
-      body.skill_list.push(tag.label)
+      body.skill_list.push({
+        "skill":tag.label,
+        "level": 1
+      })
     });
     this._soft_skill.getTags().forEach((tag) => {
-      body.softskill_list.push(tag.label)
+      body.softskill_list.push({
+        "skill":tag.label,
+        "level": 1
+      })
     });
-    body.language_list.push(this.state.profile_language_name)
-    body.education_list.push(this.state.profile_language_proficiency)
+    body.language_list.push({
+      "name":this.state.profile_language_name,
+      "proficiency":this.state.profile_language_proficiency,
+      "proficiency2": this.state.profile_language_proficiency
+    })
 
     console.log(body)
     this.props.handlePostJob(body)

@@ -16,7 +16,8 @@ import {
   LOGIN_PATH,
   SIGNUP_PATH,
   MY_JOB_PATH,
-  PROFILE_DETAIL_PATH
+  PROFILE_DETAIL_PATH,
+  LONG_LIST_PATH
 } from 'constants'
 
 // Components
@@ -103,6 +104,11 @@ export default class Navbar extends Component {
 
   handleGotoProfile = () => {
     this.context.router.push(PROFILE_DETAIL_PATH)
+    this.handleLoginMenuRequestClose()
+  }
+
+  handleGotoTalent = () => {
+    this.context.router.push(LONG_LIST_PATH)
     this.handleLoginMenuRequestClose()
   }
 
@@ -194,6 +200,7 @@ export default class Navbar extends Component {
             <MenuItem primaryText="New Job" onTouchTap={ this.handleGotoNewJob.bind(this) } />
             <MenuItem primaryText="My Jobs" onTouchTap={ this.handleGotoMyJob.bind(this) }/>
             <MenuItem primaryText="My Posting"/>
+            <MenuItem primaryText="Find Talent" onTouchTap={ this.handleGotoTalent.bind(this) }/>
           </Menu>
         </Popover>
       </div>

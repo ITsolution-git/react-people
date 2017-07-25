@@ -6,6 +6,7 @@ export const SIGNUP_PATH = '/signup'
 export const JOB_PATH = '/jobs/job'
 export const ID_JOB_PATH = ':id'
 export const MY_JOB_PATH = '/jobs/my_job'
+export const LONG_LIST_PATH = '/long_list'
 export const PROFILE_DETAIL_PATH = '/profile/detail'
 
 export const ACCOUNT_FORM_NAME = 'account'
