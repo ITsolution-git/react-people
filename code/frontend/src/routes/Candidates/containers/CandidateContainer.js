@@ -53,7 +53,9 @@ export default class CandidateContainer extends Component {
     open: false,
     langlevel: 1,
     limit: 10,
-    hasmore: true
+    hasmore: true,
+    countryCode: '*',
+    countryCodeForFilter: "*"
   }
 
    /*
@@ -87,20 +89,67 @@ export default class CandidateContainer extends Component {
     return (new Date().toISOString().slice(0,10).replace(/-/g,""))
   }
 
-  loadItems(page) {
-    Api.getLongListProfiles(this.state.limit)
+  loadItems(page, flag=false) {
+    Api.getLongListProfiles(this.state.limit, this.state.countryCode)
     .then(res => {      
       let limit = res.data.results.length + 10;
       if(limit > this.state.limit){
         this.setState({profiles:res.data.results });
         this.setState({limit: limit});
+      }else if(flag == true){
+        this.setState({profiles:res.data.results });
+        this.setState({limit: 10});
       }
     })
+  }
+
+  handleChangeCountry(event, index, value) {
+    this.setState({countryCodeForFilter: value});
+  }
+
+  handleApplyFilter() {
+    this.setState({open: false})
+    this.setState({countryCode: this.state.countryCodeForFilter})
+    this.setState({limit: 10})
+    this.loadItems(0, true)
   }
 
   render () {
     return (
       <div className={classes.container}>
+        <div>
+          <RaisedButton
+            label="Filter Talent"
+            onTouchTap={this.handleToggle}
+          />
+          <Drawer 
+            openSecondary={true} 
+            open={this.state.open} 
+            docked={false}
+            onRequestChange={(open) => this.setState({open})}
+          >
+            <AppBar title="Filter" />
+            <div className={classes.filter}>
+                <SelectField
+                  floatingLabelText="Country of Company"
+                  value={this.state.countryCodeForFilter}
+                  onChange={this.handleChangeCountry.bind(this)}
+                >
+                  <MenuItem value={'*'} primaryText="Any" />
+                  <MenuItem value={'de'} primaryText="Germany" />
+                  <MenuItem value={'ch'} primaryText="China" />
+                  <MenuItem value={'ca'} primaryText="Canada" />
+                  <MenuItem value={'gb'} primaryText="United Kingdom" />
+                  <MenuItem value={'us'} primaryText="United States" />
+                </SelectField>
+                <RaisedButton
+                  label="Apply"
+                  onTouchTap={this.handleApplyFilter.bind(this)}
+                />
+            </div>
+          </Drawer>
+        </div>
+
         <InfiniteScroll
             pageStart={0}
             loadMore={this.loadItems.bind(this)}
