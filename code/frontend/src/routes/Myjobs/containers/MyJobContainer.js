@@ -22,9 +22,22 @@ import MenuItem from 'material-ui/MenuItem';
 import { JOB_PATH, ID_JOB_PATH , MY_JOB_PATH, SHA256_KEY } from 'constants'
 import { UserIsAuthenticated } from 'utils/router'
 import OneJobComponent from '../components/OneJobComponent'
+import OneProfileComponent from '../components/OneProfileComponent'
 import LoadingSpinner from 'components/LoadingSpinner'
 import classes from './MyJobContainer.scss'
 import Api from '../apis'
+import {Tabs, Tab} from 'material-ui/Tabs';
+
+
+const styles = {
+  headline: {
+    fontSize: 24,
+    paddingTop: 16,
+    marginBottom: 12,
+    fontWeight: 400,
+  },
+};
+
 
 @UserIsAuthenticated // redirect to list page if logged in
 @firebaseConnect() // add this.props.firebase
@@ -50,7 +63,8 @@ export default class MyJobContainer extends Component {
     jobs:[],
     loading: true,
     open: false,
-    langlevel: 1
+    langlevel: 1,
+    value: 'a',
   }
 
    /*
@@ -70,6 +84,20 @@ export default class MyJobContainer extends Component {
       this.setState({jobs:res.data.results });
       this.setState({loading: false});
     })
+
+    this.setState({profiles:[{
+      image_url:'',
+      given_name:'Gerd',
+      family_name:"Meyer-Anaya",
+      company:'ABC',
+      hire_date:'2017-02-20',
+      industry:'DDS',
+      location:"Germany",
+      profile_url:"http://www.linkedin.com/in/gerd-meyer-anaya-84844556",
+      title:"--",
+      language:"en",
+      score:'',
+    }]})
   }
 
   handleLangLevelChange = (event, index, value) => this.setState({langlevel:value});
@@ -85,28 +113,70 @@ export default class MyJobContainer extends Component {
     return (new Date().toISOString().slice(0,10).replace(/-/g,""))
   }
 
+  handleChange = (value) => {
+    this.setState({
+      value: value,
+    });
+  };
+
   render () {
     console.log(this.state.jobs)
     return (
-      <div className={classes.container}>        
-        {
-          this.state.loading &&
-            <LoadingSpinner />
-        }
+      <Tabs
+        value={this.state.value}
+        onChange={this.handleChange}
+      >
+        <Tab label="My Jobs" value="a">
+          <div className={classes.container}>        
+            {
+              this.state.loading &&
+                <LoadingSpinner />
+            }
 
-        {          
-          map(this.state.jobs, (job, key) => (
-            <OneJobComponent
-              key={key}
-              id={key}
-              title={job.occupation}
-              location={job.location_list}
-              date={this.getDate()}
-              handleNavigate={this.handleNavigate.bind(this, job.id)}
-            />   
-          ))
-        }
-      </div>
+            {          
+              map(this.state.jobs, (job, key) => (
+                <OneJobComponent
+                  key={key}
+                  id={key}
+                  title={job.occupation}
+                  location={job.location_list}
+                  date={this.getDate()}
+                  handleNavigate={this.handleNavigate.bind(this, job.id)}
+                />   
+              ))
+            }
+          </div>
+        </Tab>
+        <Tab label="My Candidates" value="b">
+          <div className={classes.container}>        
+            {
+              this.state.loading &&
+                <LoadingSpinner />
+            }
+
+            {          
+              map(this.state.profiles, (profile, key) => (
+                <OneProfileComponent
+                  key={key}
+                  id={key}
+                  picture={profile.image_url}
+                  name={profile.given_name}
+                  surname={profile.family_name}
+                  company={profile.company}
+                  hiredate={profile.hire_date}
+                  industry={profile.industry}
+                  location={profile.location}
+                  url={profile.profile_url}
+                  title={profile.jobtitle}
+                  language={profile.language}
+                  score={profile.score}
+                />   
+              ))
+            }
+          </div>
+        </Tab>
+      </Tabs>
+      
     )
   }
 }

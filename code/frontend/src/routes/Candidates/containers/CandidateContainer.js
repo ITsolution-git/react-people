@@ -115,6 +115,7 @@ export default class CandidateContainer extends Component {
   handleApplyFilter() {
     this.setState({open: false})
     this.setState({countryCode: this.state.countryCodeForFilter})
+    this.setState({profiles:[] });
     this.setState({limit: 10})
     this.loadItems(0, true)
   }

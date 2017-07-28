@@ -24,8 +24,8 @@ export default class OneProfileComponent extends Component {
     type: PropTypes.string,
     picture: PropTypes.string,
     name: PropTypes.string,
-    surname: PropTypes.name,
-    company: PropTypes.company,
+    surname: PropTypes.string,
+    company: PropTypes.string,
     hiredate: PropTypes.string,
     industry: PropTypes.string,
     location: PropTypes.object,
@@ -50,10 +50,6 @@ export default class OneProfileComponent extends Component {
     return (
       <div className="one_job_container col-xs-12 col-sm-6 col-md-3-4 col-md-3">
         <Card className={classes.card_container}>
-          <CardHeader
-            actAsExpander={true}
-            showExpandableButton={true}
-          />
           
           <div className="row center-xs center-sm">
               <div className="col-xs-10 col-sm-10">
@@ -92,14 +88,6 @@ export default class OneProfileComponent extends Component {
 
           <FlatButton label="More Details" secondary={true} style={{'width': '100%'}} />
 
-          <CardText expandable={true}>
-            <div className="row">
-              <div className="col-xs-4 col-sm-4">Company</div>
-              <div className="col-xs-8 col-sm-8">{this.props.company}</div>
-              <div className="col-xs-4 col-sm-4">Hired Date</div>
-              <div className="col-xs-8 col-sm-8">{this.props.hiredate}</div>
-            </div>
-          </CardText>
         </Card>
       </div>
     )
