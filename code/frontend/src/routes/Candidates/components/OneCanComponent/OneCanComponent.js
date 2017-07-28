@@ -7,6 +7,9 @@ import {List, ListItem} from 'material-ui/List';
 import TextField from 'components/TextField'
 import { required } from 'utils/forms'
 import classes from './OneCanComponent.scss'
+import Checkbox from 'material-ui/Checkbox';
+import ActionFavorite from 'material-ui/svg-icons/action/favorite';
+import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 
 import Divider from 'material-ui/Divider';
 import CommunicationLocationOn from 'material-ui/svg-icons/communication/location-on';
@@ -17,15 +20,44 @@ import ImageCamera from 'material-ui/svg-icons/image/camera';
 import {indigo500} from 'material-ui/styles/colors';
 import CommunicationEmail from 'material-ui/svg-icons/communication/email';
 
+const styles = {
+  block: {
+    maxWidth: 250,
+  },
+  checkbox: {
+    // marginBottom: 16,
+  },
+};
+
 export default class OneCanComponent extends Component {
   static propTypes = {
     key:PropTypes.number,
     id: PropTypes.number,
-    profile: PropTypes.object
+    profile: PropTypes.object,
+    handleGotoProfileDetail: PropTypes.func,
+    not_checked_id: PropTypes.number,
   }
 
   state = {
-    open: this.props.open || false
+    open: this.props.open || false,
+    checked: false
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(Number(nextProps.not_checked_id) == Number(this.props.id)){
+      this.setState({checked: false})
+    }
+  }
+
+  handleGotoProfileDetail(){
+    this.props.handleGotoProfileDetail()
+  }
+
+  handleCheck(event, isChecked){
+    console.log(isChecked)
+    console.log(this.props.id)
+    this.props.handleCheck(this.props.profile.id, isChecked)
+    this.setState({checked: isChecked})
   }
 
   render () {
@@ -44,7 +76,13 @@ export default class OneCanComponent extends Component {
     return (
       <div className="one_job_container col-xs-12 col-sm-6 col-md-3-4 col-md-3">
         <Card className={classes.card_container}>
-
+          <Checkbox
+            checked={this.state.checked}
+            checkedIcon={<ActionFavorite />}
+            uncheckedIcon={<ActionFavoriteBorder />}
+            style={styles.checkbox}
+            onCheck={this.handleCheck.bind(this)}
+          />
           
           <div className="row center-xs center-sm">
               <div className="col-xs-10 col-sm-10">
@@ -82,7 +120,11 @@ export default class OneCanComponent extends Component {
               />
           </List>
 
-          <FlatButton label="More Details" secondary={true} style={{'width': '100%'}} />
+          <FlatButton 
+            label="More Details" 
+            secondary={true} 
+            style={{'width': '100%'}}
+            onClick={this.handleGotoProfileDetail.bind(this)} />
 
           
         </Card>

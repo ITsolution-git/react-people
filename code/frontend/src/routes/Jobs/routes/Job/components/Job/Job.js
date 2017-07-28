@@ -57,7 +57,7 @@ export default class Job extends Component {
   createLabelsLocation(data) {
     let resData = data.map((item) => {
       return {
-          value: item.description,
+          value: item.place_id,
           text: item.description
       }
     });
@@ -157,8 +157,9 @@ export default class Job extends Component {
 
   createLabelsLocationDetail(data){
   	let resData = data.map((item) => {
+      let place_id = item.place_id == undefined ? '' : item.place_id
       return {
-        value: item.name,
+        value: place_id,
         text: item.name
       }
     });
@@ -281,6 +282,9 @@ export default class Job extends Component {
   }
 
   handleFindTalent(){
+    console.log("dafdsafdsafdsafds=============================")
+    window.localStorage.setItem("JOB_LONG_LIST", "1")
+    window.localStorage.setItem("JOB_LONG_LIST_ID", this.props.params.id)
     this.context.router.push(LONG_LIST_PATH)
   }
 

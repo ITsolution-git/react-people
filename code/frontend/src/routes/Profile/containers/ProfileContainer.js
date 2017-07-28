@@ -25,7 +25,7 @@ import {
   PROFILE_DETAIL_PATH,
   SHA256_KEY } from 'constants'
 import { UserIsAuthenticated } from 'utils/router'
-import ProfileDetailComponent from '../components/ProfileDetail'
+import ChangePassword from '../components/ChangePassword'
 import LoadingSpinner from 'components/LoadingSpinner'
 import classes from './ProfileContainer.scss'
 // import Api from '../apis'
@@ -45,7 +45,10 @@ export default class ProfileContainer extends Component {
   
   static propTypes = {
     firebase: PropTypes.object,
-    auth: PropTypes.object,
+    auth: PropTypes.shape({
+      uid: PropTypes.string,
+      reauthenticateWithCredential: PropTypes.func
+    }),
   }
 
   state = {
@@ -53,7 +56,9 @@ export default class ProfileContainer extends Component {
     profile: {},
     loading: true,
     open: false,
-    langlevel: 1
+    langlevel: 1,
+    checkOldPwd: true,
+    message: ''
   }
 
    /*
@@ -145,21 +150,51 @@ export default class ProfileContainer extends Component {
     this.context.router.push(`${JOB_PATH}`);
   }
 
+  handleCheckOldPassword(oldPwd) {
+    if (isLoaded(this.props.auth)){
+      const credential = this.props.firebase.auth.EmailAuthProvider.credential(
+          this.props.auth.email, 
+          oldPwd
+      );
+      this.props.auth.reauthenticate(credential)
+      .then(() => {
+        this.setState({checkOldPwd: false})
+      })
+      .catch(() => {
+        this.setState({message: 'Password is not correct, Please try again!'})
+        this.setState({checkOldPwd: true})
+      })      
+    }
+  }
+
+  handleChangePassword(password) {
+    this.props.auth.updatePassword(password)
+    .then(()=> {
+      this.setState({message: 'Update Successfully!'})
+    })
+  }
+
+  changeOldKey() {
+    this.setState({message: ''})
+  }
+
   render () {
     const { profile } = this.state
+    const { auth } = this.props
     
+    if (!isLoaded(auth)) {
+      return <LoadingSpinner />
+    }
+
     return (
-      <div className={classes.container}>        
-        {
-          this.state.loading &&
-            <LoadingSpinner />
-        }
-        {
-          !this.state.loading &&
-            <ProfileDetailComponent
-              profile={profile}
-            />
-        }
+      <div className={classes.container}>
+        <ChangePassword
+          checkOldPwd={this.state.checkOldPwd}
+          handleChangePassword={this.handleChangePassword.bind(this)}
+          handleCheckOldPassword = {this.handleCheckOldPassword.bind(this)}
+          changeOldKey = {this.changeOldKey.bind(this)}
+          message={this.state.message}
+        />
       </div>
     )
   }

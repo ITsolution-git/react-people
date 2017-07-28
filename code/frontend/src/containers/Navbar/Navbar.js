@@ -108,6 +108,7 @@ export default class Navbar extends Component {
   }
 
   handleGotoTalent = () => {
+    window.localStorage.setItem("JOB_LONG_LIST", "0")
     this.context.router.push(LONG_LIST_PATH)
     this.handleLoginMenuRequestClose()
   }
@@ -200,7 +201,7 @@ export default class Navbar extends Component {
             <MenuItem primaryText="New Job" onTouchTap={ this.handleGotoNewJob.bind(this) } />
             <MenuItem primaryText="My Jobs" onTouchTap={ this.handleGotoMyJob.bind(this) }/>
             <MenuItem primaryText="My Posting"/>
-            <MenuItem primaryText="Find Talent" onTouchTap={ this.handleGotoTalent.bind(this) }/>
+            <MenuItem primaryText="Candidate" onTouchTap={ this.handleGotoTalent.bind(this) }/>
           </Menu>
         </Popover>
       </div>

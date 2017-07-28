@@ -41,6 +41,7 @@ export default class EditJobComponent extends Component {
     soft_skills: [],
     hard_skill:'',
     profile_location: '',
+    profile_location_id: '',
     profile_language_name:'',
     profile_language_proficiency:'',
     language:'en'
@@ -60,6 +61,7 @@ export default class EditJobComponent extends Component {
         this.setState({
           occupation: nextProps.occupations[0],
           profile_location: nextProps.profile_locations[0].text,
+          profile_location_id: nextProps.profile_locations[0].value,
           profile_language_name: nextProps.profile_language_names[0].label,
           profile_language_proficiency: nextProps.profile_language_proficiencys[0].text
         })          
@@ -129,8 +131,11 @@ export default class EditJobComponent extends Component {
     }
 
     body.occupation = this.state.occupation
+    body.language_captured = this.state.language
+
     body.location_list.push({
-      "name":this.state.profile_location
+      "name":this.state.profile_location,
+      "place_id": this.state.profile_location_id
     })
     
     this._hard_skill.getTags().forEach((tag) => {
@@ -193,13 +198,19 @@ export default class EditJobComponent extends Component {
 
   handleLocationNewRequest = (searchText, index) => {
 
-    this.setState({profile_location: searchText.text})
+    this.setState({
+        profile_location: searchText.text,
+        profile_location_id: searchText.value})
   }
 
 
   handleLanguageNewRequest = (searchText, index) => {
    console.log(searchText)
    this.setState({profile_language_name: searchText.text}) 
+  }
+ 
+  handleGotoTalent() {
+    this.props.handleFindTalent()
   }
 
   render () {
@@ -214,13 +225,12 @@ export default class EditJobComponent extends Component {
       <RaisedButton
         label='Find Talent'
         className={classes.findtalent}
-        onClick={this.props.handleFindTalent}
+        onClick={this.handleGotoTalent.bind(this)}
         primary
       />,
       <RaisedButton
         label='Save'
         type='submit'
-        onClick={this.handleSubmit.bind(this)}
         className={classes.createbutton}
         primary
       />

@@ -22,11 +22,11 @@ export const createRoutes = (store) => ({
     LoginRoute,
     SignupRoute,
     MyJobsRoute,
-    ProfileRoute,
-    CandidateRoute,
+    ProfileRoute,    
     ProjectsRoute(store), // async route definitions recieve store
     RecoverRoute(store), // async route definitions recieve store
-    JobsRoute(store)
+    JobsRoute(store),
+    CandidateRoute(store)
   ]
 })
 

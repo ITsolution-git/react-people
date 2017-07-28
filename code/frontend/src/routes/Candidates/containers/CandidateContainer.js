@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component,cloneElement, PropTypes } from 'react'
+import ReactDOM from 'react-dom';
 import { map } from 'lodash'
 import { Link } from 'react-router'
 import GoogleButton from 'react-google-button'
@@ -19,13 +20,16 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton'
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import { JOB_PATH, ID_JOB_PATH , MY_JOB_PATH, SHA256_KEY } from 'constants'
+import {  LONG_LIST_PATH,
+          LONG_LIST_DETAIL_PATH, 
+          SHA256_KEY } from 'constants'
 import { UserIsAuthenticated } from 'utils/router'
 import OneCanComponent from '../components/OneCanComponent'
 import LoadingSpinner from 'components/LoadingSpinner'
 import classes from './CandidateContainer.scss'
 import Api from '../apis'
 import InfiniteScroll from 'react-infinite-scroller';
+import Dialog from 'material-ui/Dialog';
 
 @UserIsAuthenticated // redirect to list page if logged in
 @firebaseConnect() // add this.props.firebase
@@ -51,11 +55,17 @@ export default class CandidateContainer extends Component {
     profiles:[],
     loading: true,
     open: false,
+    open_dialog: false,
     langlevel: 1,
     limit: 10,
     hasmore: true,
     countryCode: '*',
-    countryCodeForFilter: "*"
+    countryCodeForFilter: "*",
+    useWindow: false,
+    id_cans: [],
+    not_checked_id:0,
+    message: "",
+    title: ""
   }
 
    /*
@@ -69,21 +79,11 @@ export default class CandidateContainer extends Component {
         window.dataLayerCall(auth.email, account.name + ' ' + account.surname, hash);
       }      
     }, 1000);
-
-    // Api.getLongListProfiles()
-    // .then(res => {
-    //   this.setState({profiles:res.data.results });
-    //   this.setState({loading: false});
-    // })
   }
 
   handleLangLevelChange = (event, index, value) => this.setState({langlevel:value});
 
   handleToggle = () => this.setState({open: !this.state.open});
-
-  handleNavigate(id){
-    this.context.router.push(`${JOB_PATH}/${id}`);
-  }
 
   getDate() {
     return (new Date().toISOString().slice(0,10).replace(/-/g,""))
@@ -91,12 +91,17 @@ export default class CandidateContainer extends Component {
 
   loadItems(page, flag=false) {
     Api.getLongListProfiles(this.state.limit, this.state.countryCode)
-    .then(res => {      
+    .then(res => {    
+      console.log(res)
+      console.log(flag)
       let limit = res.data.results.length + 10;
-      if(limit > this.state.limit){
+      if(limit > this.state.limit && flag == false){
+        console.log("pagination")
         this.setState({profiles:res.data.results });
         this.setState({limit: limit});
+        // this.setState({hasmore: false})
       }else if(flag == true){
+        console.log("new data")
         this.setState({profiles:res.data.results });
         this.setState({limit: 10});
       }
@@ -114,13 +119,74 @@ export default class CandidateContainer extends Component {
     this.loadItems(0, true)
   }
 
+  handleGotoProfileDetail(id){
+    
+  }
+
+  _handleScroll(e){
+    console.log("fdasfdsafds")
+  }
+
+  handleCheck(id, isChecked){
+    let ids = this.state.id_cans
+    ids = ids.filter((i) => {
+      return i != id 
+    })
+    if (isChecked) {
+      if (ids.length >= 10){
+        this.handleOpen(id)
+      }else{
+        ids.push(id)        
+        this.setState({not_checked_id: 0})
+      }
+    }
+    this.setState({id_cans: ids})
+  }
+
+  handleOpen = (id) => {
+    this.setState({title: "Choose Candidates"})
+    this.setState({message: "You can only have 10 candidates in a short list"})
+    this.setState({open_dialog: true});
+    this.setState({not_checked_id: id})
+  };
+
+  handleClose = () => {
+    this.setState({open_dialog: false});
+  };
+
+  handleMakeShortList() {
+    let ids = this.state.id_cans
+    if (ids.length == 0) {
+      this.setState({title: "Make List"})
+      this.setState({message: "You might want to choose the candidates you like"})
+      this.setState({open_dialog: true});
+    }
+  }
+
   render () {
+
+    if (this.props.children) {
+      // pass all props to children routes
+      return cloneElement(this.props.children, this.props)
+    }
+    const actions = [
+      <FlatButton
+        label="Close"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />
+    ];
+
     return (
-      <div className={classes.container}>
+      <div className={classes.container} onScroll={(e)=>{ this._handleScroll.bind(this)}}>
         <div>
           <RaisedButton
             label="Filter Talent"
             onTouchTap={this.handleToggle}
+          />
+          <RaisedButton
+            label="Make Short List"
+            onTouchTap={this.handleMakeShortList.bind(this)}
           />
           <Drawer 
             openSecondary={true} 
@@ -137,10 +203,8 @@ export default class CandidateContainer extends Component {
                 >
                   <MenuItem value={'*'} primaryText="Any" />
                   <MenuItem value={'de'} primaryText="Germany" />
-                  <MenuItem value={'ch'} primaryText="China" />
-                  <MenuItem value={'ca'} primaryText="Canada" />
-                  <MenuItem value={'gb'} primaryText="United Kingdom" />
-                  <MenuItem value={'us'} primaryText="United States" />
+                  <MenuItem value={'ch'} primaryText="Switzerland" />
+                  <MenuItem value={'fr'} primaryText="France" />
                 </SelectField>
                 <RaisedButton
                   label="Apply"
@@ -148,12 +212,22 @@ export default class CandidateContainer extends Component {
                 />
             </div>
           </Drawer>
+
+          <Dialog
+            title={this.state.title}
+            actions={actions}
+            modal={false}
+            open={this.state.open_dialog}
+            onRequestClose={this.handleClose}
+          >
+            {this.state.message}
+          </Dialog>
         </div>
 
         <InfiniteScroll
             pageStart={0}
             loadMore={this.loadItems.bind(this)}
-            hasMore={true}
+            hasMore={this.state.hasmore}
             loader={<LoadingSpinner />}
             useWindow={false}
         >
@@ -161,9 +235,11 @@ export default class CandidateContainer extends Component {
           map(this.state.profiles, (profile, key) => (
             <OneCanComponent
               key={key}
-              id={key}
+              id={profile.id}
               profile={profile}
-
+              handleGotoProfileDetail={()=>this.context.router.push(`${LONG_LIST_PATH}/${profile.internal_id}`)}
+              handleCheck={this.handleCheck.bind(this)}
+              not_checked_id={this.state.not_checked_id}
             />   
           ))
         }

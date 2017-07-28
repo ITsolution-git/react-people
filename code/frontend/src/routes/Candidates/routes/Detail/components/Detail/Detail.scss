@@ -1,0 +1,14 @@
+@import 'base';
+
+.container {
+  @extend .flex-column-center;
+  justify-content: flex-start;
+  padding-top: 30px;
+  flex-grow: 2;
+  box-sizing: border-box;
+  overflow-y: auto;
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  align-items: normal;
+}

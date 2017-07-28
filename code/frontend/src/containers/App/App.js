@@ -28,6 +28,7 @@ export default class AppContainer extends Component {
 
   render () {
     const { routes, store } = this.props
+    window.localStorage.setItem("JOB_LONG_LIST", "0")
     return (
       <Provider store={store}>
         <div style={{ height: '100%' }}>

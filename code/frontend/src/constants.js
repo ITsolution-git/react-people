@@ -6,7 +6,8 @@ export const SIGNUP_PATH = '/signup'
 export const JOB_PATH = '/jobs/job'
 export const ID_JOB_PATH = ':id'
 export const MY_JOB_PATH = '/jobs/my_job'
-export const LONG_LIST_PATH = '/long_list'
+export const LONG_LIST_PATH = '/candidates'
+export const LONG_LIST_DETAIL_PATH = ':id_can'
 export const PROFILE_DETAIL_PATH = '/profile/detail'
 
 export const ACCOUNT_FORM_NAME = 'account'
@@ -36,7 +37,8 @@ export const paths = {
   login: LOGIN_PATH,
   signup: SIGNUP_PATH,
   job: JOB_PATH,
-  my_job: MY_JOB_PATH
+  my_job: MY_JOB_PATH,
+  can_list: LONG_LIST_PATH
 }
 
 export default { ...paths, ...formNames }

@@ -116,6 +116,8 @@ export default class NewJobComponent extends Component {
       "unique_id": null,
     }
 
+    body.language_captured = this.state.language
+
     body.occupation = this.state.occupation
     body.location_list.push({
       "name":this.state.profile_location
@@ -181,7 +183,8 @@ export default class NewJobComponent extends Component {
   }
 
   handleLocationNewRequest = (searchText, index) => {
-
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!")
+    console.log(searchText)
     this.setState({profile_location: searchText.text})
   }
 
@@ -204,12 +207,12 @@ export default class NewJobComponent extends Component {
         label='Find Talent'
         className={classes.findtalent}
         onClick={this.props.handleFindTalent}
+        disabled={true}
         primary
       />,
       <RaisedButton
         label='Save'
         type='submit'
-        onClick={this.handleSubmit.bind(this)}
         className={classes.createbutton}
         primary
       />

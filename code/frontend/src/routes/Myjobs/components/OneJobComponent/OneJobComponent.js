@@ -42,9 +42,6 @@ export default class OneJobComponent extends Component {
       greyLight: '#45505a'
     };
 
-    console.log("============================")
-    console.log(location)
-
     let loc = ''
     if (this.props.location.length > 0) {
       console.log(this.props.location)
